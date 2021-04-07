@@ -3,7 +3,6 @@ version: "3.8"
 services:
   db:
     image: mysql:5.7
-    env_file: ./.env
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_ALLOW_EMPTY_PASSWORD: $MYSQL_ALLOW_EMPTY_PASSWORD
@@ -14,7 +13,6 @@ services:
   back:
     build:
       context: ./back
-      env_file: ./.env
       args:
         WORKDIR: $WORKDIR
         APIPORT: $API_PORT
@@ -35,7 +33,6 @@ services:
   front:
     build:
       context: ./front
-      env_file: ./.env
       args:
         WORKDIR: $WORKDIR
         CONTAINER_PORT: $CONTAINER_PORT

@@ -4,15 +4,15 @@ ARG WORKDIR
 ARG CONTAINER_PORT
 
 ENV HOME=/${WORKDIR} \
-  LANG=C.UTF-8 \
-  TZ=Asia/Tokyo \
-  HOST=0.0.0.0
+    LANG=C.UTF-8 \
+    TZ=Asia/Tokyo \
+    HOST=0.0.0.0
 
 RUN apk update && \
-  apk upgrade && \
-  npm install -g n && \
-  yarn install &&\
-  rm -rf /var/cache/apk/*
+    apk upgrade && \
+    npm install -g n && \
+    yarn install &&\
+    rm -rf /var/cache/apk/*
 
 WORKDIR ${HOME}
 

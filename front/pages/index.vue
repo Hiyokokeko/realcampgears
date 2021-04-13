@@ -1,5 +1,5 @@
 <template>
-  <v-app> hello.vue </v-app>
+  <v-app style="height: 4000px"> hello.vue </v-app>
 </template>
 
 <script>

@@ -42,7 +42,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    'nuxt-webfontloder'
+    'nuxt-webfontloader'
   ],
   webfontloader: {
     google: {

@@ -46,7 +46,7 @@ export default {
   ],
   webfontloader: {
     google: {
-      families: []
+      families: ['Slabo+27px', 'Fraunces']
     }
   },
 

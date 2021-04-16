@@ -42,7 +42,13 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-webfontloader'
   ],
+  webfontloader: {
+    google: {
+      families: ['Slabo+27px', 'Fraunces']
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},

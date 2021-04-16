@@ -42,7 +42,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    'nuxt-webfontloader'
+    'nuxt-webfontloader',
+    'nuxt-i18n'
   ],
   webfontloader: {
     google: {
@@ -68,6 +69,22 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }
+      }
+    }
+  },
+
+  // Doc: https://nuxt-community.github.io/nuxt-i18n/basic-usage.html#nuxt-link
+  i18n: {
+    locales: ['ja', 'en'],
+    defaultLocale: 'ja',
+    // Doc: https://kazupon.github.io/vue-i18n/api/#properties
+    vueI18n: {
+      fallbackLocale: 'ja',
+      // silentTranslationWarn: true,
+      silentFallbackWarn: true,
+      messages: {
+        ja: require('./locales/ja.json'),
+        en: require('./locales/en.json')
       }
     }
   },

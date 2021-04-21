@@ -1,11 +1,16 @@
 <template>
   <v-app>
-    <the-header @toggle-drawer="$refs.drawer.drawer = !$refs.drawer.drawer" />
+    <template v-if="$auth.loggedIn">
+      <login-header
+        @toggle-drawer="$refs.drawer.drawer = !$refs.drawer.drawer"
+      />
+    </template>
+    <template v-else>
+      <the-header @toggle-drawer="$refs.drawer.drawer = !$refs.drawer.drawer" />
+    </template>
     <the-sidebar ref="drawer" />
     <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-main>
     <the-footer />
   </v-app>
@@ -15,13 +20,15 @@
 import theSidebar from "~/components/layouts/TheSidebar.vue";
 import theHeader from "~/components/layouts/TheHeader.vue";
 import theFooter from "~/components/layouts/TheFooter.vue";
+import loginHeader from "~/components/layouts/LoginHeader.vue";
 
 export default {
   components: {
     theSidebar,
     theHeader,
     theFooter,
+    loginHeader,
   },
-  data() {},
+  // data() {},
 };
 </script>

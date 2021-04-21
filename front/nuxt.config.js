@@ -44,7 +44,6 @@ export default {
     '@nuxtjs/axios',
     'nuxt-webfontloader',
     'nuxt-i18n',
-    '@nuxtjs/auth'
   ],
   webfontloader: {
     google: {
@@ -90,23 +89,23 @@ export default {
     }
   },
 
-  auth: {
-    redirect: {
-      login: '/users/login',
-      logout: '/',
-      callback: false,
-      home: '/',
-    },
-    strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/api/v1/auth/sign_in', method: 'post', propertyName: 'token' },
-          logout: false,
-          user: false
-        },
-      }
-    }
-  },
+  // auth: {
+  //   redirect: {
+  //     login: '/users/login',
+  //     logout: '/',
+  //     callback: false,
+  //     home: '/',
+  //   },
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: { url: '/api/v1/auth/sign_in', method: 'post', propertyName: 'token' },
+  //         logout: false,
+  //         user: false
+  //       },
+  //     }
+  //   }
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -114,7 +113,7 @@ export default {
     extend(config, ctx) {
     }
   },
-  router: {
-    middlewere: ['auth']
-  }
+  // router: {
+  //   middlewere: ['auth']
+  // }
 }

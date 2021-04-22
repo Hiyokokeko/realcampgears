@@ -7,12 +7,12 @@
       <v-card-text>
         <v-form ref="form" lazy-validation>
           <v-text-field
-            v-model="email"
+            v-model="user.email"
             prepend-icon="mdi-email"
             label="メールアドレス"
           />
           <v-text-field
-            v-model="password"
+            v-model="user.password"
             prepend-icon="mdi-lock"
             append-icon="mdi-eye-off"
             label="パスワード"
@@ -21,7 +21,7 @@
             <v-btn
               color="light-green darken-1"
               class="white--text"
-              @click="login"
+              @click="login(user)"
             >
               ログイン
             </v-btn>
@@ -33,35 +33,20 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      password: "",
-      email: "",
+      user: {
+        password: "",
+        email: "",
+      },
     };
   },
   methods: {
-    async login() {
-      await this.$axios
-        .$post("api/v1/auth/sign_in", {
-          email: this.email,
-          password: this.password,
-        })
-        .then(
-          (res) => {
-            console.log("ログイン成功" + "/pages/login.vue");
-            console.log(res);
-            console.log(res.data);
-            this.$store.commit("user/setCurrentUser", res.data);
-            return res;
-          },
-          (error) => {
-            console.log("ログイン失敗" + "/pages/login.vue");
-            console.log(error);
-            return error;
-          }
-        );
-    },
+    ...mapActions({
+      login: "auth/login",
+    }),
   },
   layout: "default",
 };

@@ -11,12 +11,12 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <template v-if="!$store.state.auth.isLoggedIn">
-      <v-btn class="ml-4 mr-2" to="/users/signup"> 新規登録 </v-btn>
-      <v-btn class="ml-4 mr-2" to="/users/login"> ログイン </v-btn>
+      <v-btn class="ml-5 mr-2" @click="pagelink(links[0].to)"> 新規登録 </v-btn>
+      <v-btn class="ml-4 mr-2" @click="pagelink(links[1].to)"> ログイン </v-btn>
     </template>
     <template v-else>
-      <v-btn class="ml-4 mr-2" to="/users/edit"> 編集 </v-btn>
-      <v-btn class="ml-4 mr-2" to="/" @click="logout"> ログアウト </v-btn>
+      <v-btn class="ml-4 mr-2" @click="pagelink(links[2].to)"> 編集 </v-btn>
+      <v-btn class="ml-4 mr-2" @click="logout"> ログアウト </v-btn>
     </template>
   </v-app-bar>
 </template>
@@ -30,12 +30,21 @@ export default {
       drawer: null,
       fixed: false,
       title: "REALCAMPGEARS",
+      links: [
+        { to: "/users/signup" },
+        { to: "/users/login" },
+        { to: "/users/edit" },
+      ],
     };
   },
   methods: {
     ...mapActions({
       logout: "auth/logout",
     }),
+    // ページの遷移の仕方を変更
+    pagelink(link) {
+      this.$router.push({ path: link });
+    },
   },
 };
 </script>

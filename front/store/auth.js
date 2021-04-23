@@ -62,7 +62,7 @@ export const actions = {
     await this.$axios.$delete("/api/v1/auth/sign_out",)
       .then(res => {
         console.log('ログアウト成功')
-        commit("setCurrentUser", null)
+        commit("setCurrentUser", {})
         commit("setIsLoggedIn", false)
         this.$router.push("/")
         console.log(res)

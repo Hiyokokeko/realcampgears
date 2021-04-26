@@ -26,7 +26,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    'plugins/axios'
+    'plugins/axios',
+    { src: '~/plugins/localStorege.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -43,7 +44,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     'nuxt-webfontloader',
-    'nuxt-i18n'
+    'nuxt-i18n',
   ],
   webfontloader: {
     google: {
@@ -89,10 +90,31 @@ export default {
     }
   },
 
+  // auth: {
+  //   redirect: {
+  //     login: '/users/login',
+  //     logout: '/',
+  //     callback: false,
+  //     home: '/',
+  //   },
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: { url: '/api/v1/auth/sign_in', method: 'post', propertyName: 'token' },
+  //         logout: false,
+  //         user: false
+  //       },
+  //     }
+  //   }
+  // },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // You can extend webpack config here
     extend(config, ctx) {
     }
-  }
+  },
+  // router: {
+  //   middlewere: ['auth']
+  // }
 }

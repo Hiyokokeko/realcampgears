@@ -1,12 +1,15 @@
 <template>
-  <v-app style="height: 4000px">
+  <div style="height: 4000px">
     <h1>HELLO.VUE</h1>
-  </v-app>
+    <p>{{ $store.state.auth }}</p>
+  </div>
 </template>
 
 <script>
 export default {
-  data() {},
+  auth: false,
+  layout: "default",
+  // data() {},
 };
 </script>
 

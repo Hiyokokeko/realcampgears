@@ -18,22 +18,30 @@
               label="商品詳細"
             />
             <v-text-field
-              v-model="gear.size"
+              v-model.number="gear.size"
               placeholder="例:375(w)×440(d)×210(h)cm"
               label="サイズ"
             />
             <v-text-field
-              v-model="gear.weight"
+              v-model.number="gear.weight"
               placeholder="例:1,060g"
               label="重量"
             />
             <v-text-field
-              v-model="gear.price"
+              v-model.number="gear.price"
               placeholder="例:¥50,000"
               label="商品価格"
             />
-            <v-select :items="gear.category" label="カテゴリー" />
-            <v-select :items="gear.maker" label="販売メーカー" />
+            <v-select
+              v-model="gear.category"
+              :items="gear.category"
+              label="カテゴリー"
+            />
+            <v-select
+              v-model="gear.maker"
+              :items="gear.maker"
+              label="販売メーカー"
+            />
             <v-card-actions>
               <v-btn
                 color="light-green darken-1"
@@ -85,6 +93,20 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    gearCreate() {
+      this.$axios
+        .post("api/v1/gears", this.gear)
+        .then((res) => {
+          console.log(res);
+          console.log("投稿が成功しました");
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("投稿失敗");
+        });
+    },
+  },
 };
 </script>

@@ -4,9 +4,10 @@
     <p>{{ $store.state.auth.currentUser }}</p>
     <p v-if="$store.state.auth.isLoggedIn">
       <nuxtLink to="/gear/create"> ギア投稿ページへ </nuxtLink>
-      <ul>
-        <li v-for="gear in gears" :key="gear.name">
+      <ul v-for="gear in gears" :key="gear.id">
+        <li>
           {{ gear }}
+          <v-imag :src="gear.image.url"></v-imag>
         </li>
       </ul>
     </p>
@@ -19,7 +20,7 @@ export default {
   layout: "default",
   data() {
     return {
-      gears: {},
+      gears: [],
     };
   },
   created() {

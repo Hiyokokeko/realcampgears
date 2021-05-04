@@ -5,7 +5,8 @@ class Api::V1::GearsController < ApplicationController
   end
 
   def show
-
+    # @gear = Food.find(params[:food_id])
+    # render json: @food, status: :ok
   end
 
   def create
@@ -25,6 +26,6 @@ class Api::V1::GearsController < ApplicationController
   private
 
   def gear_params
-    params.require(:gear).permit(:name, :details, :size, :weight, :price, :category, :maker)
+    params.permit(:name, :details, :size, :weight, :price, :category, :maker, :image)
   end
 end

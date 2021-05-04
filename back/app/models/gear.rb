@@ -6,4 +6,6 @@ class Gear < ApplicationRecord
   validates :price, presence: true
   validates :category, presence: true
   validates :maker, presence: true
+
+  mount_uploader :image, ImageUploader
 end

@@ -5,8 +5,8 @@ class Api::V1::GearsController < ApplicationController
   end
 
   def show
-    # @gear = Food.find(params[:food_id])
-    # render json: @food, status: :ok
+    @gear = Gear.find(params[:id])
+    render json: @gear, status: :ok
   end
 
   def create

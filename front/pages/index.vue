@@ -7,7 +7,10 @@
       <ul v-for="gear in gears" :key="gear.id">
         <li>
           {{ gear }}
-          <v-imag :src="gear.image.url"></v-imag>
+          <nuxtLink :to="{ path: `/gear/${gear.id}`}">
+            詳細
+          </nuxtLink>
+          <v-img :src="gear.image.url" rel="preload"></v-img>
         </li>
       </ul>
     </p>

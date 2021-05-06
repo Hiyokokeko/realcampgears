@@ -25,17 +25,17 @@
             />
             <v-text-field
               v-model.number="size"
-              placeholder="例:375(w)×440(d)×210(h)cm"
+              placeholder="例:300"
               label="サイズ"
             />
             <v-text-field
               v-model.number="weight"
-              placeholder="例:1,060g"
+              placeholder="例:1000"
               label="重量"
             />
             <v-text-field
               v-model.number="price"
-              placeholder="例:¥50,000"
+              placeholder="例:50000"
               label="商品価格"
             />
             <v-select
@@ -103,9 +103,9 @@ export default {
       formData.append("name", this.name);
       formData.append("image", this.image);
       formData.append("details", this.details);
-      formData.append("size", this.calorie);
-      formData.append("weight", this.carbonhydrate);
-      formData.append("price", this.protein);
+      formData.append("size", this.size);
+      formData.append("weight", this.weight);
+      formData.append("price", this.price);
       formData.append("category", this.category);
       formData.append("maker", this.maker);
       const config = {

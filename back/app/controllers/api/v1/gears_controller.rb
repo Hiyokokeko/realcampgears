@@ -13,15 +13,13 @@ class Api::V1::GearsController < ApplicationController
     @gear = Gear.new(gear_params)
 
     if @gear.save
-      render json: @gear,status: :created
+      render json: @gear, status: :created
     else
       render json: @gear.errors, status: :unprocessable_entity
     end
   end
 
-  def destroy
-
-  end
+  def destroy; end
 
   private
 

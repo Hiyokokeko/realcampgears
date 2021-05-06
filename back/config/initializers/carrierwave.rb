@@ -3,7 +3,6 @@ require 'carrierwave/storage/file'
 require 'carrierwave/storage/fog'
 
 CarrierWave.configure do |config|
-
   # config.fog_credentials = {
   #   provider: 'AWS',
   #   aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
@@ -12,11 +11,11 @@ CarrierWave.configure do |config|
   # }
 
   if Rails.env.production?
-    config.fog_directory  = ''
+    config.fog_directory = ''
     config.asset_host = ''
     config.cache_storage = :fog
   elsif Rails.env.test?
-    config.fog_directory  = ''
+    config.fog_directory = ''
     config.asset_host = ''
     config.cache_storage = :fog
   else
@@ -26,5 +25,4 @@ CarrierWave.configure do |config|
     config.asset_host = 'http://localhost:3000'
     config.cache_storage = :file
   end
-
 end

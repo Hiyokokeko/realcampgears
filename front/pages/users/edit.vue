@@ -10,22 +10,24 @@
             <p>
               現在のメールアドレス: {{ $store.state.auth.currentUser.email }}
             </p>
+            <v-text-field v-model="name" label="新しいニックネーム" />
             <v-text-field
-              v-model="user.email"
+              v-model="email"
               prepend-icon="mdi-email"
               label="新しいメールアドレス"
             />
-            <v-text-field
-              v-model="user.password"
-              prepend-icon="mdi-lock"
-              append-icon="mdi-eye-off"
-              label="パスワード"
+            <v-file-input
+              :value="image"
+              @change="setImage"
+              accept="image/png, image/jpeg, image/bmp"
+              outlined
+              label="プロフィール画像"
             />
             <v-card-actions>
               <v-btn
                 color="light-green darken-1"
                 class="white--text"
-                @click="editEmail"
+                @click="updateUser"
               >
                 保存
               </v-btn>
@@ -73,10 +75,9 @@
 export default {
   data() {
     return {
-      user: {
-        password: "",
-        email: "",
-      },
+      name: this.$store.state.auth.currentUser.name,
+      email: this.$store.state.auth.currentUser.email,
+      image: this.$store.state.auth.currentUser.image.url,
       pas: {
         password: "",
         password_confirmation: "",
@@ -84,20 +85,43 @@ export default {
     };
   },
   methods: {
-    editEmail() {
-      this.$axios
-        .put("api/v1/auth", this.user, {
+    async updateUser() {
+      const formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("email", this.email);
+      if (this.image != "") {
+        formData.append("image", this.image);
+      }
+      await this.$axios
+        .put("api/v1/auth", formData, {
           headers: {
-            "access-token": localStorage.getItem("access-token"),
-            uid: localStorage.getItem("uid"),
-            client: localStorage.getItem("client"),
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
           console.log(res);
           this.$store.commit("auth/setCurrentUser", res.data);
+          this.$store.commit("auth/setCurrentUser", res.data.data);
           this.$router.push("/");
         });
+    },
+    // editEmail() {
+    //   this.$axios
+    //     .put("api/v1/auth", this.user, {
+    //       headers: {
+    //         "access-token": localStorage.getItem("access-token"),
+    //         uid: localStorage.getItem("uid"),
+    //         client: localStorage.getItem("client"),
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       this.$store.commit("auth/setCurrentUser", res.data);
+    //       this.$router.push("/");
+    //     });
+    // },
+    setImage(e) {
+      this.image = e;
     },
     editPassword() {
       this.$axios

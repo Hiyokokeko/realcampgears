@@ -5,7 +5,7 @@
     <v-main>
       <nuxt />
     </v-main>
-    <the-footer />
+    <!-- <the-footer /> -->
   </v-app>
 </template>
 
@@ -22,3 +22,9 @@ export default {
   },
 };
 </script>
+
+<style>
+/* v-main {
+  background-color: #e4f9f5;
+} */
+</style>

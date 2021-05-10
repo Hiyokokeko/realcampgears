@@ -1,7 +1,15 @@
 <template>
   <v-app-bar :clipped-left="clipped" fixed app>
-    <v-app-bar-nav-icon @click.stop="$emit('toggle-drawer')">
-    </v-app-bar-nav-icon>
+    <v-app-bar-nav-icon
+      @click.stop="$emit('toggle-drawer')"
+    ></v-app-bar-nav-icon>
+    <!-- <v-toolbar-title >
+        <v-img
+          :src="img"
+          max-width="200"
+          max-height="200">
+        </v-img>
+      </v-toolbar-title> -->
     <nuxt-link to="/" class="link">
       <v-toolbar-title class="header-title" v-text="title" />
     </nuxt-link>
@@ -15,7 +23,7 @@
       <v-btn class="ml-4 mr-2" @click="pagelink(links[1].to)"> ログイン </v-btn>
     </template>
     <template v-else>
-      <v-btn class="ml-4 mr-2" @click="pagelink(links[2].to)"> 編集 </v-btn>
+      <v-btn class="ml-5 mr-2" @click="pagelink(links[2].to)"> 編集 </v-btn>
       <v-btn class="ml-4 mr-2" @click="logout"> ログアウト </v-btn>
     </template>
   </v-app-bar>

@@ -48,7 +48,7 @@ export default {
   ],
   webfontloader: {
     google: {
-      families: ['Slabo+27px', 'Fraunces']
+      families: ['Slabo+27px', 'Fraunces', 'Noto+Sans:wght@700', 'Noto+Sans+JP:wght@900']
     }
   },
 
@@ -68,7 +68,11 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.green.accent3,
+          backgroud: "#e4f9f5"
+        },
+        light: {
+          backgroud: "#e4f9f5"
         }
       }
     }

@@ -7,8 +7,8 @@
           width="500"
           show-arrows-on-hover
           hide-delimiter-background
-          hide-delimiters
           cycle
+          light
         >
           <v-carousel-item
             v-for="(item, index) in headerItems"
@@ -16,10 +16,10 @@
             :to="item.to"
           >
             <v-row no-gutters>
-              <v-col cols="8">
+              <v-col cols="7">
                 <v-img :src="item.image" height="330"></v-img>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="5">
                 <v-card
                   height="100%"
                   tile
@@ -44,24 +44,32 @@
 
     <!-- <h1>HELLO.VUE</h1> -->
 
-    <template v-if="$store.state.auth.isLoggedIn">
-      <p>{{ $store.state.auth.currentUser }}</p>
-      <!-- <p>{{$store.state.auth.currentUser.image}}</p> -->
-      <v-img :src="$store.state.auth.currentUser.image.url"></v-img>
-    </template>
-    <nuxtLink to="/gear/create"> gear投稿ページへ </nuxtLink>
-    <ul v-for="gear in gears" :key="gear.id">
-      <li>
-        {{ gear }}
-        <nuxtLink :to="{ path: `/gear/${gear.id}` }"> 詳細 </nuxtLink>
-        <v-img :src="gear.image.url"></v-img>
-      </li>
-    </ul>
+    <v-container>
+      <template v-if="$store.state.auth.isLoggedIn">
+        <p>{{ $store.state.auth.currentUser }}</p>
+        <!-- <p>{{$store.state.auth.currentUser.image}}</p> -->
+        <v-img :src="$store.state.auth.currentUser.image.url"></v-img>
+      </template>
+      <nuxtLink to="/gear/create"> gear投稿ページへ </nuxtLink>
+      <ul v-for="gear in gears" :key="gear.id">
+        <li>
+          {{ gear }}
+          <nuxtLink :to="{ path: `/gear/${gear.id}` }"> 詳細 </nuxtLink>
+          <v-img :src="gear.image.url"></v-img>
+        </li>
+      </ul>
+    </v-container>
   </div>
 </template>
 
 <script>
+import Carousel from "vue-carousel/src/Carousel.vue";
+import Slide from "vue-carousel/src/Slide.vue";
 export default {
+  components: {
+    Carousel,
+    Slide,
+  },
   auth: false,
   layout: "default",
   data() {
@@ -85,12 +93,12 @@ export default {
       ],
     };
   },
-  created() {
+  mounted() {
     this.$axios.get("api/v1/gears").then((res) => {
       console.log(res);
       console.log(res.data);
       this.gears = res.data;
-      this.loading = true;
+      // this.loading = true;
     });
   },
   methods: {},

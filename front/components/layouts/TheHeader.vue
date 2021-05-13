@@ -11,7 +11,22 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <template v-if="!loggedIn">
-      <v-btn class="ml-5 mr-2" @click="pagelink(links[0].to)"> 新規登録 </v-btn>
+      <v-btn @click.stop="dialog = true" class="ml-5 mr-2"> 新規登録 </v-btn>
+      <v-dialog v-model="dialog" max-width="600px">
+        <sign-up-modal v-on:closeModal="closeEvent"></sign-up-modal>
+      </v-dialog>
+      <!-- <v-btn class="ml-5 mr-2" @click="pagelink(links[0].to)">
+        新規登録
+      </v-btn> -->
+      <!-- <v-btn
+        @click.stop="dialog = true"
+        class="ml-4 mr-2"
+      >
+        ログイン
+      </v-btn> -->
+      <!-- <v-dialog v-model="signUpdialog" max-width="600px"> -->
+      <!-- <signup-modal v-on:closeModal="closeEvent"></signup-modal> -->
+      <!-- </v-dialog> -->
       <v-btn class="ml-4 mr-2" @click="pagelink(links[1].to)"> ログイン </v-btn>
     </template>
     <template v-else>
@@ -23,9 +38,12 @@
 <script>
 import { mapGetters } from "vuex";
 import headerAvatar from "~/components/HeaderAvatar.vue";
+import signUpModal from "~/components/SignUpModal.vue";
+
 export default {
   components: {
     headerAvatar,
+    signUpModal,
   },
   data() {
     return {
@@ -33,6 +51,7 @@ export default {
       drawer: null,
       fixed: false,
       title: "REALCAMPGEARS",
+      dialog: false,
       links: [{ to: "/users/signup" }, { to: "/users/login" }],
     };
   },
@@ -44,6 +63,9 @@ export default {
   methods: {
     pagelink(link) {
       this.$router.push({ path: link });
+    },
+    closeEvent() {
+      this.dialog = false;
     },
   },
 };

@@ -39,15 +39,7 @@ export default {
   },
   data() {
     return {
-      gears1: [],
-      gears2: [],
-      gears3: [],
-      gears4: [],
       loading: false,
-      color: "white",
-      links: {
-        to: "users/create",
-      },
     };
   },
   created() {
@@ -60,9 +52,6 @@ export default {
     ...mapGetters({ gears: "gear/gears" }),
   },
   methods: {
-    pagelink(link) {
-      this.$router.push({ path: link });
-    },
     ...mapActions({ getGears: "gear/getGears" }),
   },
 };

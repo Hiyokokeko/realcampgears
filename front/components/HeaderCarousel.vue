@@ -60,7 +60,7 @@ export default {
         },
         {
           image: require("@/assets/images/manual-image.jpeg"),
-          title: "初めてご利用の方へ",
+          title: "初めて使う方へ",
           text: "REALCAMPGEARSの使い方",
           to: "/manual",
         },

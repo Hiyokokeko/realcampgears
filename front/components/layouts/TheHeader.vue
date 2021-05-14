@@ -11,23 +11,18 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <template v-if="!loggedIn">
-      <v-btn @click.stop="dialog = true" class="ml-5 mr-2"> 新規登録 </v-btn>
-      <v-dialog v-model="dialog" max-width="600px">
-        <sign-up-modal v-on:closeModal="closeEvent"></sign-up-modal>
-      </v-dialog>
-      <!-- <v-btn class="ml-5 mr-2" @click="pagelink(links[0].to)">
+      <v-btn @click.stop="signUpDialog = true" class="ml-5 mr-2">
         新規登録
-      </v-btn> -->
-      <!-- <v-btn
-        @click.stop="dialog = true"
-        class="ml-4 mr-2"
-      >
+      </v-btn>
+      <v-dialog v-model="signUpDialog" max-width="600px">
+        <sign-up-modal v-on:closeModal="closeSignUp"></sign-up-modal>
+      </v-dialog>
+      <v-btn @click.stop="loginDialog = true" class="ml-4 mr-2">
         ログイン
-      </v-btn> -->
-      <!-- <v-dialog v-model="signUpdialog" max-width="600px"> -->
-      <!-- <signup-modal v-on:closeModal="closeEvent"></signup-modal> -->
-      <!-- </v-dialog> -->
-      <v-btn class="ml-4 mr-2" @click="pagelink(links[1].to)"> ログイン </v-btn>
+      </v-btn>
+      <v-dialog v-model="loginDialog" max-width="600px">
+        <login-modal v-on:closeModal="closeLogin"></login-modal>
+      </v-dialog>
     </template>
     <template v-else>
       <header-avatar></header-avatar>
@@ -39,11 +34,13 @@
 import { mapGetters } from "vuex";
 import headerAvatar from "~/components/HeaderAvatar.vue";
 import signUpModal from "~/components/SignUpModal.vue";
+import loginModal from "~/components/LoginModal.vue";
 
 export default {
   components: {
     headerAvatar,
     signUpModal,
+    loginModal,
   },
   data() {
     return {
@@ -51,7 +48,8 @@ export default {
       drawer: null,
       fixed: false,
       title: "REALCAMPGEARS",
-      dialog: false,
+      signUpDialog: false,
+      loginDialog: false,
       links: [{ to: "/users/signup" }, { to: "/users/login" }],
     };
   },
@@ -64,8 +62,11 @@ export default {
     pagelink(link) {
       this.$router.push({ path: link });
     },
-    closeEvent() {
-      this.dialog = false;
+    closeSignUp() {
+      this.signUpDialog = false;
+    },
+    closeLogin() {
+      this.loginDialog = false;
     },
   },
 };

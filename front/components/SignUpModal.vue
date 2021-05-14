@@ -1,5 +1,11 @@
 <template>
   <v-card>
+    <v-system-bar lights-out>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="close" class="mt-5">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-system-bar>
     <v-card-title>
       <span class="headline">新規登録</span>
     </v-card-title>
@@ -57,18 +63,21 @@
         </v-container>
         <small class="ml-4">*必須項目</small>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="close"> 閉じる </v-btn>
-          <v-spacer></v-spacer>
           <v-btn
             :disabled="!isValid"
             color="light-green darken-1"
             class="white--text pa-5"
             @click="registerUser"
+            block
           >
             新規登録
           </v-btn>
         </v-card-actions>
       </v-form>
+    </v-card-text>
+    <v-card-text class="text-center caption pb-5">
+      アカウントをお持ちですか？
+      <span @click="loginLink" class="login-link"> ログイン </span>
     </v-card-text>
   </v-card>
 </template>
@@ -136,6 +145,21 @@ export default {
     close() {
       this.$emit("closeModal");
     },
+    loginLink() {
+      this.$emit("closeModal");
+      this.$emit("loginUser");
+    },
   },
 };
 </script>
+
+<style scoped>
+.login-link {
+  color: #2196f3;
+  cursor: pointer;
+}
+.login-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+</style>

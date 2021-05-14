@@ -15,17 +15,20 @@
         新規登録
       </v-btn>
       <v-dialog v-model="signUpDialog" max-width="600px">
-        <sign-up-modal v-on:closeModal="closeSignUp"></sign-up-modal>
+        <sign-up-modal
+          v-on:closeModal="closeSignUp"
+          v-on:loginUser="openLogin"
+        />
       </v-dialog>
       <v-btn @click.stop="loginDialog = true" class="ml-4 mr-2">
         ログイン
       </v-btn>
       <v-dialog v-model="loginDialog" max-width="600px">
-        <login-modal v-on:closeModal="closeLogin"></login-modal>
+        <login-modal v-on:closeModal="closeLogin" v-on:newUser="openSignUp" />
       </v-dialog>
     </template>
     <template v-else>
-      <header-avatar></header-avatar>
+      <header-avatar />
     </template>
   </v-app-bar>
 </template>
@@ -62,8 +65,14 @@ export default {
     pagelink(link) {
       this.$router.push({ path: link });
     },
+    openSignUp() {
+      this.signUpDialog = true;
+    },
     closeSignUp() {
       this.signUpDialog = false;
+    },
+    openLogin() {
+      this.loginDialog = true;
     },
     closeLogin() {
       this.loginDialog = false;

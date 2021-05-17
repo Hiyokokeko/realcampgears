@@ -6,19 +6,7 @@
       <gear-ranking />
     </template>
     <v-container>
-      <!-- <template v-if="$store.state.auth.isLoggedIn">
-        <p>{{ $store.state.auth.currentUser }}</p>
-        <p>{{$store.state.auth.currentUser.image}}</p>
-        <v-img :src="$store.state.auth.currentUser.image.url"></v-img>
-      </template> -->
       <nuxtLink to="/gear/create"> gear投稿ページへ </nuxtLink>
-      <!-- <ul v-for="gear in gears" :key="gear.id">
-        <li>
-          {{ gear }}
-          <nuxtLink :to="{ path: `/gear/${gear.id}` }"> 詳細 </nuxtLink>
-          <v-img :src="gear.image.url"></v-img>
-        </li>
-      </ul> -->
     </v-container>
   </div>
 </template>

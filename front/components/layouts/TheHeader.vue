@@ -1,21 +1,39 @@
 <template>
-  <v-app-bar :clipped-left="clipped" fixed app>
+  <v-app-bar :clipped-left="clipped" app>
     <v-app-bar-nav-icon @click.stop="$emit('toggle-drawer')">
     </v-app-bar-nav-icon>
     <nuxt-link to="/" class="link">
       <v-toolbar-title class="header-title" v-text="title" />
     </nuxt-link>
+    <v-tabs v-model="tab" align-with-title>
+      <v-tabs-slider></v-tabs-slider>
+
+      <v-tab v-for="item in items" :key="item.title" :to="item.to">
+        {{ item.title }}
+      </v-tab>
+    </v-tabs>
     <v-spacer />
-    <v-text-field
-      :value="search"
-      label="検索..."
-      prepend-inner-icon="mdi-magnify"
-      class="mt-6 ml-10 mr-3 search-form"
-      solo
-      rounded
-    />
+    <div class="mt-6 mr-3 search-form">
+      <v-text-field
+        :value="search"
+        label="検索..."
+        prepend-inner-icon="mdi-magnify"
+        solo
+        rounded
+      />
+    </div>
     <template v-if="!loggedIn">
-      <v-btn @click.stop="signUpDialog = true" class="ml-5 mr-2">
+      <v-btn @click.stop="loginDialog = true" class="ml-4 mr-2">
+        ログイン
+      </v-btn>
+      <v-dialog v-model="loginDialog" max-width="600px">
+        <login-modal v-on:closeModal="closeLogin" v-on:newUser="openSignUp" />
+      </v-dialog>
+      <v-btn
+        @click.stop="signUpDialog = true"
+        class="ml-4 mr-2"
+        color="green  white--text font-weight-bold"
+      >
         新規登録
       </v-btn>
       <v-dialog v-model="signUpDialog" max-width="600px">
@@ -23,12 +41,6 @@
           v-on:closeModal="closeSignUp"
           v-on:loginUser="openLogin"
         />
-      </v-dialog>
-      <v-btn @click.stop="loginDialog = true" class="ml-4 mr-2">
-        ログイン
-      </v-btn>
-      <v-dialog v-model="loginDialog" max-width="600px">
-        <login-modal v-on:closeModal="closeLogin" v-on:newUser="openSignUp" />
       </v-dialog>
     </template>
     <template v-else>
@@ -68,12 +80,35 @@ export default {
     return {
       clipped: true,
       drawer: null,
-      fixed: false,
+      fixed: true,
       title: "REALCAMPGEARS",
       signUpDialog: false,
       loginDialog: false,
       links: [{ to: "/users/signup" }, { to: "/users/login" }],
       search: null,
+      tab: null,
+      items: [
+        {
+          title: "ホーム",
+          to: "/",
+        },
+        {
+          title: "ランキング",
+          to: "/ranking",
+        },
+        {
+          title: "カテゴリ",
+          to: "/category",
+        },
+        {
+          title: "新商品",
+          to: "/new_item",
+        },
+        {
+          title: "使い方",
+          to: "/gaidorain",
+        },
+      ],
     };
   },
   computed: {
@@ -103,14 +138,14 @@ export default {
 
 <style>
 .header-title {
-  font-family: "Frances", serif;
-  font-size: 40px;
+  font-family: "arial black", serif;
+  font-size: 35px;
   color: #333333;
 }
 .link {
   text-decoration: none;
 }
 .search-form {
-  width: 40px;
+  width: 500px;
 }
 </style>

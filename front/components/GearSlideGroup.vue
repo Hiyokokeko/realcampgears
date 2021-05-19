@@ -1,5 +1,5 @@
 <template>
-  <v-card width="548px" flat>
+  <v-card width="610px" flat>
     <v-list>
       <v-row>
         <v-list-item

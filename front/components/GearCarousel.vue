@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-row no-gutters class="mt-10 ml-10 tab" @click="pagelink(links.to)">
+    <v-row no-gutters class="mt-4 ml-16 tab" @click="pagelink(links.to)">
       <h3 class="font-weight-bold headline">おすすめ</h3>
       <v-icon right>mdi-chevron-right</v-icon>
     </v-row>
-    <v-slide-group class="pa-4" show-arrows>
+    <v-slide-group class="px-4 mx-8 pt-2" show-arrows>
       <v-slide-item v-for="gear in gears" :key="gear.id">
         <v-hover v-slot="{ hover }">
           <v-card
             class="ma-2"
             height="200px"
-            width="200px"
+            width="188px"
             :to="{ path: `/gear/${gear.id}` }"
             :elevation="hover ? 12 : 2"
             :class="{ 'on-hover': hover }"

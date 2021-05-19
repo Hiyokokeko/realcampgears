@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-row no-gutters class="mt-10 ml-10 tab" @click="pagelink(links.to)">
-      <h3 class="font-weight-bold headline">全体ランキング</h3>
+      <h3 class="font-weight-bold headline ml-6 mb-3">全体ランキング</h3>
       <v-icon right>mdi-chevron-right</v-icon>
     </v-row>
-    <v-sheet max-width="100%">
+    <v-sheet max-width="100%" class="mx-10">
       <v-slide-group class="px-5" show-arrows height="300px">
         <gear-slide-group :gears="gears1" :number="a" />
         <gear-slide-group :gears="gears2" :number="b" />

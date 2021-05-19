@@ -1,52 +1,55 @@
 <template>
-  <div style="height: 4000px">
-    <h1>HELLO.VUE</h1>
-    <template v-if="$store.state.auth.isLoggedIn">
-      <p>{{ $store.state.auth.currentUser }}</p>
-      <!-- <p>{{$store.state.auth.currentUser.image}}</p> -->
-      <v-img :src="$store.state.auth.currentUser.image.url"></v-img>
-      <nuxtLink to="/gear/create"> gear投稿ページへ </nuxtLink>
-      <!-- <p>{{ imaging }}</p> -->
-      <ul v-for="gear in gears" :key="gear.id">
-        <li>
-          {{ gear }}
-          <nuxtLink :to="{ path: `/gear/${gear.id}` }"> 詳細 </nuxtLink>
-          <v-img :src="gear.image.url"></v-img>
-        </li>
-      </ul>
+  <div>
+    <header-carousel />
+    <template v-if="loading">
+      <gear-carousel :gears="gears" />
+      <gear-ranking />
     </template>
+    <v-container>
+      <nuxtLink to="/gear/create"> gear投稿ページへ </nuxtLink>
+    </v-container>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+import headerCarousel from "~/components/HeaderCarousel.vue";
+import gearCarousel from "~/components/GearCarousel.vue";
+import gearRanking from "~/components/GearRanking.vue";
+
 export default {
-  auth: false,
   layout: "default",
+
+  components: {
+    gearCarousel,
+    headerCarousel,
+    gearRanking,
+  },
   data() {
     return {
-      gears: [],
-      // loading: false
+      loading: false,
     };
   },
-  // methods: {
-  //   getMsg () {
-  //     this.$axios.$get('/api/v1/hello')
-  //       .then(res => this.msgs.push(res))
-  //   }
-  // }
   created() {
-    this.$axios.get("api/v1/gears").then((res) => {
-      console.log(res);
-      console.log(res.data);
-      this.gears = res.data;
-      // this.loading = true
+    this.getGears().then(() => {
+      this.gears1 = this.gears.slice(0, 5);
+      this.loading = true;
     });
   },
-  methods: {},
+  computed: {
+    ...mapGetters({ gears: "gear/gears" }),
+  },
+  methods: {
+    ...mapActions({ getGears: "gear/getGears" }),
+  },
 };
 </script>
+
 <style>
-h1 {
-  font-family: "Fraunces", serif;
+.tab {
+  cursor: pointer;
+}
+list-item {
+  width: 100px;
 }
 </style>

@@ -4,8 +4,7 @@
   </v-footer>
 </template>
 
-<script>
-</script>
+<script></script>
 
 <style>
 .footer {

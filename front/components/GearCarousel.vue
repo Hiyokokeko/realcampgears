@@ -39,20 +39,25 @@
 
 <script>
 export default {
+  props: {
+    gears: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       links: {
         to: "/users/create",
       },
-    };
+    }
   },
-  props: ["gears"],
   methods: {
     pagelinks(link) {
-      this.$router.push({ path: link });
+      this.$router.push({ path: link })
     },
   },
-};
+}
 </script>
 
 <style scoped>

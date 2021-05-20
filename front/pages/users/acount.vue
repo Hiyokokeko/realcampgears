@@ -64,10 +64,10 @@ export default {
           },
         })
         .then((response) => {
-          this.$auth.logout();
-          window.location.href = "/";
-        });
+          this.$auth.logout()
+          window.location.href = "/"
+        })
     },
   },
-};
+}
 </script>

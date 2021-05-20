@@ -13,7 +13,7 @@
       </v-tab>
     </v-tabs>
     <v-spacer />
-    <div class="mt-6 mr-3 search-form">
+    <div class="mt-6 mr-2 search-form">
       <v-text-field
         :value="search"
         label="検索..."
@@ -23,24 +23,21 @@
       />
     </div>
     <template v-if="!loggedIn">
-      <v-btn @click.stop="loginDialog = true" class="ml-4 mr-2">
+      <v-btn class="ml-4 mr-2" @click.stop="loginDialog = true">
         ログイン
       </v-btn>
       <v-dialog v-model="loginDialog" max-width="600px">
-        <login-modal v-on:closeModal="closeLogin" v-on:newUser="openSignUp" />
+        <login-modal @closeModal="closeLogin" @newUser="openSignUp" />
       </v-dialog>
       <v-btn
-        @click.stop="signUpDialog = true"
         class="ml-4 mr-2"
         color="green  white--text font-weight-bold"
+        @click.stop="signUpDialog = true"
       >
         新規登録
       </v-btn>
       <v-dialog v-model="signUpDialog" max-width="600px">
-        <sign-up-modal
-          v-on:closeModal="closeSignUp"
-          v-on:loginUser="openLogin"
-        />
+        <sign-up-modal @closeModal="closeSignUp" @loginUser="openLogin" />
       </v-dialog>
     </template>
     <template v-else>
@@ -63,18 +60,18 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import headerAvatar from "~/components/HeaderAvatar.vue";
-import signUpModal from "~/components/SignUpModal.vue";
-import loginModal from "~/components/LoginModal.vue";
-import searchForm from "~/components/SearchForm.vue";
+import { mapGetters } from "vuex"
+import headerAvatar from "~/components/HeaderAvatar.vue"
+import signUpModal from "~/components/SignUpModal.vue"
+import loginModal from "~/components/LoginModal.vue"
+// import searchForm from "~/components/SearchForm.vue"
 
 export default {
   components: {
     headerAvatar,
     signUpModal,
     loginModal,
-    searchForm,
+    // searchForm,
   },
   data() {
     return {
@@ -109,7 +106,7 @@ export default {
           to: "/gaidorain",
         },
       ],
-    };
+    }
   },
   computed: {
     ...mapGetters({
@@ -118,22 +115,22 @@ export default {
   },
   methods: {
     pagelink(link) {
-      this.$router.push({ path: link });
+      this.$router.push({ path: link })
     },
     openSignUp() {
-      this.signUpDialog = true;
+      this.signUpDialog = true
     },
     closeSignUp() {
-      this.signUpDialog = false;
+      this.signUpDialog = false
     },
     openLogin() {
-      this.loginDialog = true;
+      this.loginDialog = true
     },
     closeLogin() {
-      this.loginDialog = false;
+      this.loginDialog = false
     },
   },
-};
+}
 </script>
 
 <style>

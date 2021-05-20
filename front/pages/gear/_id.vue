@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-5">
+  <v-container class="mt-5 px-10">
     <v-card flat>
       <template v-if="loading">
         <v-row class="mx-1" no-gutters>
@@ -15,7 +15,13 @@
           <p class="caption">更新日時 : {{ gear.created_at }}</p>
         </v-row>
         <div
-          class="subtitle-1 mt-2 blue-grey--text darken-4--text text-decoration-underline"
+          class="
+            subtitle-1
+            mt-2
+            blue-grey--text
+            darken-4--text
+            text-decoration-underline
+          "
         >
           {{ gear.maker }}
         </div>
@@ -54,13 +60,15 @@
                     {{ rating }}
                   </span>
                   <small class="ml-10">
-                    口コミ数: 0人<br />買いたい: 0人
+                    口コミ数: 0人
+                    <br />
+                    買いたい: 0人
                   </small>
                 </div>
                 <v-divder />
                 <div class="font-weight-bold my-5">
                   <v-btn color="indigo accent-3 white--text font-weight-bold"
-                    >my gearに追加</v-btn
+                    >My Gearsに追加</v-btn
                   >
                   <v-btn
                     class="mx-5"
@@ -68,9 +76,9 @@
                   >
                     買いたい！
                   </v-btn>
-                  <v-btn color="orange white--text font-weight-bold"
-                    >評価・口コミをする</v-btn
-                  >
+                  <v-btn color="orange white--text font-weight-bold">
+                    評価・口コミをする
+                  </v-btn>
                 </div>
                 <v-divider />
                 <div class="my-4">
@@ -136,18 +144,18 @@ export default {
       gear: {},
       loading: false,
       rating: 4.3,
-    };
+    }
   },
   created() {
     this.$axios.get(`api/v1/gears/${this.$route.params.id}`).then((res) => {
-      this.gear = res.data;
-      console.log(res);
-      console.log(res.data);
-      this.loading = true;
-    });
+      this.gear = res.data
+      console.log(res)
+      console.log(res.data)
+      this.loading = true
+    })
   },
   methods: {},
-};
+}
 </script>
 
 <style scoped>

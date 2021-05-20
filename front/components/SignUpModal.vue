@@ -2,7 +2,7 @@
   <v-card>
     <v-system-bar lights-out>
       <v-spacer></v-spacer>
-      <v-btn icon @click="close" class="mt-5">
+      <v-btn icon class="mt-5" @click="close">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-system-bar>
@@ -37,8 +37,8 @@
             :append-icon="toggle.icon"
             :type="toggle.type"
             autocomplete="on"
-            @click:append="show = !show"
             label="パスワード*"
+            @click:append="show = !show"
           />
           <v-text-field
             v-model="user.password_confirmation"
@@ -51,14 +51,14 @@
             :append-icon="toggle.icon"
             :type="toggle.type"
             autocomplete="on"
-            @click:append="show = !show"
             label="パスワード確認*"
+            @click:append="show = !show"
           />
           <v-file-input
-            @change="setImage"
             accept="image/png, image/jpeg, image/bmp"
             label="プロフィール画像"
             prepend-icon="mdi-account"
+            @change="setImage"
           />
         </v-container>
         <small class="ml-4">*必須項目</small>
@@ -67,8 +67,8 @@
             :disabled="!isValid"
             color="light-green darken-1"
             class="white--text pa-5"
-            @click="registerUser"
             block
+            @click="registerUser"
           >
             新規登録
           </v-btn>
@@ -77,16 +77,16 @@
     </v-card-text>
     <v-card-text class="text-center caption pb-5">
       アカウントをお持ちですか？
-      <span @click="loginLink" class="login-link"> ログイン </span>
+      <span class="login-link" @click="loginLink"> ログイン </span>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from "vuex"
 export default {
   data() {
-    const max = 30;
+    const max = 30
     return {
       isValid: false,
       show: false,
@@ -104,53 +104,53 @@ export default {
         (v) => (!!v && max >= v.length) || `${max}文字以内で入力してください`,
       ],
       emailRules: [(v) => !!v || "", (v) => /.+@.+\..+/.test(v) || ""],
-    };
+    }
   },
   computed: {
     nameForm() {
-      const placeholder = this.noValidation ? undefined : "username";
-      return { placeholder };
+      const placeholder = this.noValidation ? undefined : "username"
+      return { placeholder }
     },
     emailForm() {
-      const placeholder = this.noValidation ? undefined : "your@email.com";
-      return { placeholder };
+      const placeholder = this.noValidation ? undefined : "your@email.com"
+      return { placeholder }
     },
     passwordRules() {
-      const min = "6文字以上";
-      const msg = `${min}。半角英数字•ハイフン•アンダーバーが使用可能。`;
-      const required = (v) => !!v || "";
-      const format = (v) => /^[\w-]{6,72}$/.test(v) || msg;
-      const rules = this.noValidation ? [required] : [format];
-      const hint = this.noValidation ? undefined : msg;
-      const placeholder = this.noValidation ? undefined : min;
-      return { rules, hint, placeholder };
+      const min = "6文字以上"
+      const msg = `${min}。半角英数字•ハイフン•アンダーバーが使用可能。`
+      const required = (v) => !!v || ""
+      const format = (v) => /^[\w-]{6,72}$/.test(v) || msg
+      const rules = this.noValidation ? [required] : [format]
+      const hint = this.noValidation ? undefined : msg
+      const placeholder = this.noValidation ? undefined : min
+      return { rules, hint, placeholder }
     },
     toggle() {
-      const icon = this.show ? "mdi-eye" : "mdi-eye-off";
-      const type = this.show ? "text" : "password";
-      return { icon, type };
+      const icon = this.show ? "mdi-eye" : "mdi-eye-off"
+      const type = this.show ? "text" : "password"
+      return { icon, type }
     },
   },
   methods: {
     setImage(e) {
-      this.user.image = e;
+      this.user.image = e
     },
     registerUser() {
-      this.$emit("closeModal");
-      this.signUp(this.user);
+      this.$emit("closeModal")
+      this.signUp(this.user)
     },
     ...mapActions({
       signUp: "auth/signUp",
     }),
     close() {
-      this.$emit("closeModal");
+      this.$emit("closeModal")
     },
     loginLink() {
-      this.$emit("closeModal");
-      this.$emit("loginUser");
+      this.$emit("closeModal")
+      this.$emit("loginUser")
     },
   },
-};
+}
 </script>
 
 <style scoped>

@@ -8,10 +8,10 @@
         <v-card-text>
           <v-form ref="form" lazy-validation>
             <v-file-input
-              @change="setImage"
               accept="image/png, image/jpeg, image/bmp"
               outlined
               label="商品画像"
+              @change="setImage"
             />
             <v-text-field
               v-model="name"
@@ -92,39 +92,39 @@ export default {
         "Nordisk",
         "その他",
       ],
-    };
+    }
   },
   methods: {
     setImage(e) {
-      this.image = e;
+      this.image = e
     },
     gearCreate() {
-      const formData = new FormData();
-      formData.append("name", this.name);
-      formData.append("image", this.image);
-      formData.append("details", this.details);
-      formData.append("size", this.size);
-      formData.append("weight", this.weight);
-      formData.append("price", this.price);
-      formData.append("category", this.category);
-      formData.append("maker", this.maker);
+      const formData = new FormData()
+      formData.append("name", this.name)
+      formData.append("image", this.image)
+      formData.append("details", this.details)
+      formData.append("size", this.size)
+      formData.append("weight", this.weight)
+      formData.append("price", this.price)
+      formData.append("category", this.category)
+      formData.append("maker", this.maker)
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
-      };
+      }
       this.$axios
         .post("api/v1/gears", formData, config)
         .then((res) => {
-          console.log(res);
-          console.log("投稿が成功しました");
-          this.$router.push("/");
+          console.log(res)
+          console.log("投稿が成功しました")
+          this.$router.push("/")
         })
         .catch((err) => {
-          console.log(err);
-          console.log("投稿失敗");
-        });
+          console.log(err)
+          console.log("投稿失敗")
+        })
     },
   },
-};
+}
 </script>

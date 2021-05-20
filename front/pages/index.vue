@@ -2,7 +2,7 @@
   <div>
     <header-carousel />
     <template v-if="loading">
-      <gear-carousel :gears="gears" />
+      <gear-carousel :gears="gears1" />
       <gear-ranking />
     </template>
     <v-container>
@@ -12,37 +12,37 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import headerCarousel from "~/components/HeaderCarousel.vue";
-import gearCarousel from "~/components/GearCarousel.vue";
-import gearRanking from "~/components/GearRanking.vue";
+import { mapActions, mapGetters } from "vuex"
+import headerCarousel from "~/components/HeaderCarousel.vue"
+import gearCarousel from "~/components/GearCarousel.vue"
+import gearRanking from "~/components/GearRanking.vue"
 
 export default {
-  layout: "default",
-
   components: {
     gearCarousel,
     headerCarousel,
     gearRanking,
   },
+  layout: "default",
   data() {
     return {
       loading: false,
-    };
-  },
-  created() {
-    this.getGears().then(() => {
-      this.gears1 = this.gears.slice(0, 5);
-      this.loading = true;
-    });
+      gear1: [],
+    }
   },
   computed: {
     ...mapGetters({ gears: "gear/gears" }),
   },
+  created() {
+    this.getGears().then(() => {
+      this.gears1 = this.gears.slice(0, 8)
+      this.loading = true
+    })
+  },
   methods: {
     ...mapActions({ getGears: "gear/getGears" }),
   },
-};
+}
 </script>
 
 <style>

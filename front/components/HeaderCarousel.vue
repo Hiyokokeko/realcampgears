@@ -65,9 +65,9 @@ export default {
           to: "/manual",
         },
       ],
-    };
+    }
   },
-};
+}
 </script>
 
 <style scoped>

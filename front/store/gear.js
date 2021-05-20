@@ -15,15 +15,16 @@ export const mutations = {
 export const actions = {
   async getGears({ commit }) {
     const gears = {
-      data: '',
-    };
-    await this.$axios.get('api/v1/gears')
-      .then(res => {
-        gears.data = res.data;
-        commit('setGears', gears);
+      data: "",
+    }
+    await this.$axios
+      .get("api/v1/gears")
+      .then((res) => {
+        gears.data = res.data
+        commit("setGears", gears)
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch((error) => {
+        console.log(error)
+      })
   },
 }

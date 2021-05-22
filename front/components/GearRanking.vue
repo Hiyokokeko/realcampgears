@@ -16,15 +16,14 @@
 </template>
 
 <script>
-import gearSlideGroup from "~/components/GearSlideGroup.vue";
-import { mapGetters } from "vuex";
+import gearSlideGroup from "~/components/GearSlideGroup.vue"
+import { mapGetters } from "vuex"
 
 export default {
-  layout: "default",
-
   components: {
     gearSlideGroup,
   },
+  layout: "default",
   data() {
     return {
       gears1: [],
@@ -38,23 +37,23 @@ export default {
       links: {
         to: "/users/create",
       },
-    };
-  },
-  mounted() {
-    this.gears1 = this.gears.slice(0, 10);
-    this.gears2 = this.gears.slice(1, 11);
-    this.gears3 = this.gears.slice(0, 10);
-    this.gears4 = this.gears.slice(1, 11);
+    }
   },
   computed: {
     ...mapGetters({ gears: "gear/gears" }),
   },
+  mounted() {
+    this.gears1 = this.gears.slice(0, 10)
+    this.gears2 = this.gears.slice(1, 11)
+    this.gears3 = this.gears.slice(0, 10)
+    this.gears4 = this.gears.slice(1, 11)
+  },
   methods: {
     pagelink(link) {
-      this.$router.push({ path: link });
+      this.$router.push({ path: link })
     },
   },
-};
+}
 </script>
 
 <style>

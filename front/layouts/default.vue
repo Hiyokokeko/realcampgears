@@ -11,19 +11,19 @@
 </template>
 
 <script>
-import theSidebar from "~/components/layouts/TheSidebar.vue";
-import theHeader from "~/components/layouts/TheHeader.vue";
-import theFooter from "~/components/layouts/TheFooter.vue";
-import flashMessage from "~/components/layouts/FlashMessage.vue";
+import theSidebar from "~/components/layouts/TheSidebar.vue"
+import theHeader from "~/components/layouts/TheHeader.vue"
+// import theFooter from "~/components/layouts/TheFooter.vue"
+import flashMessage from "~/components/layouts/FlashMessage.vue"
 
 export default {
   components: {
     theSidebar,
     theHeader,
-    theFooter,
+    // theFooter,
     flashMessage,
   },
-};
+}
 </script>
 
 <style>

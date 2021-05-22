@@ -18,17 +18,17 @@
               label="新しいメールアドレス"
             />
             <v-file-input
-              @change="setImage"
               accept="image/png, image/jpeg, image/bmp"
               outlined
               label="プロフィール画像"
+              @change="setImage"
             />
             <v-card-actions>
               <v-btn
                 color="light-green darken-1"
                 class="white--text"
-                @click="updateUser"
                 block
+                @click="updateUser"
               >
                 保存
               </v-btn>
@@ -58,8 +58,8 @@
               <v-btn
                 color="light-green darken-1"
                 class="white--text"
-                @click="editPassword"
                 block
+                @click="editPassword"
               >
                 保存
               </v-btn>
@@ -91,15 +91,15 @@ export default {
         password: "",
         password_confirmation: "",
       },
-    };
+    }
   },
   methods: {
     async updateUser() {
-      const formData = new FormData();
-      formData.append("name", this.name);
-      formData.append("email", this.email);
+      const formData = new FormData()
+      formData.append("name", this.name)
+      formData.append("email", this.email)
       if (this.image != "") {
-        formData.append("image", this.image);
+        formData.append("image", this.image)
       }
       await this.$axios
         .put("api/v1/auth", formData, {
@@ -108,40 +108,39 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
-          this.$store.commit("auth/setCurrentUser", res.data.data);
+          console.log(res)
+          this.$store.commit("auth/setCurrentUser", res.data.data)
           this.$store.commit(
             "flashMessage/setMessage",
             "ユーザー情報を変更しました。",
             {
               root: true,
             }
-          );
-          this.$store.commit("flashMessage/setType", "success", { root: true });
-          this.$store.commit("flashMessage/setStatus", true, { root: true });
+          )
+          this.$store.commit("flashMessage/setType", "success", { root: true })
+          this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true });
-          }, 4000);
-          this.$router.push("/");
+            this.$store.commit("flashMessage/setStatus", false, { root: true })
+          }, 4000)
+          this.$router.push("/")
         })
         .catch(() => {
-          this.$store.commit("auth/setCurrentUser", res.data.data);
           this.$store.commit(
             "flashMessage/setMessage",
             "ユーザー情報の変更に失敗しました。",
             {
               root: true,
             }
-          );
-          this.$store.commit("flashMessage/setType", "error", { root: true });
-          this.$store.commit("flashMessage/setStatus", true, { root: true });
+          )
+          this.$store.commit("flashMessage/setType", "error", { root: true })
+          this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true });
-          }, 4000);
-        });
+            this.$store.commit("flashMessage/setStatus", false, { root: true })
+          }, 4000)
+        })
     },
     setImage(e) {
-      this.image = e;
+      this.image = e
     },
     editPassword() {
       this.$axios
@@ -153,31 +152,31 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          console.log(res)
           this.$store.commit(
             "flashMessage/setMessage",
             "パスワードを変更しました。",
             { root: true }
-          );
-          this.$store.commit("flashMessage/setType", "success", { root: true });
-          this.$store.commit("flashMessage/setStatus", true, { root: true });
+          )
+          this.$store.commit("flashMessage/setType", "success", { root: true })
+          this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true });
-          }, 4000);
-          this.$router.push("/");
+            this.$store.commit("flashMessage/setStatus", false, { root: true })
+          }, 4000)
+          this.$router.push("/")
         })
         .catch(() => {
           this.$store.commit(
             "flashMessage/setMessage",
             "パスワードの変更に失敗しました。",
             { root: true }
-          );
-          this.$store.commit("flashMessage/setType", "error", { root: true });
-          this.$store.commit("flashMessage/setStatus", true, { root: true });
+          )
+          this.$store.commit("flashMessage/setType", "error", { root: true })
+          this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true });
-          }, 4000);
-        });
+            this.$store.commit("flashMessage/setStatus", false, { root: true })
+          }, 4000)
+        })
     },
     deleteUser() {
       this.$axios
@@ -189,27 +188,27 @@ export default {
           },
         })
         .then((res) => {
-          this.$store.commit("auth/setCurrentUser", {});
-          this.$store.commit("auth/setIsLoggedIn", false);
+          this.$store.commit("auth/setCurrentUser", {})
+          this.$store.commit("auth/setIsLoggedIn", false)
           this.$store.commit(
             "flashMessage/setMessage",
             "登録ユーザーを削除しました。",
             { root: true }
-          );
-          this.$store.commit("flashMessage/setType", "info", { root: true });
-          this.$store.commit("flashMessage/setStatus", true, { root: true });
+          )
+          this.$store.commit("flashMessage/setType", "info", { root: true })
+          this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true });
-          }, 4000);
-          this.$router.push("/");
-          console.log(res);
-          return res;
+            this.$store.commit("flashMessage/setStatus", false, { root: true })
+          }, 4000)
+          this.$router.push("/")
+          console.log(res)
+          return res
         })
         .catch((err) => {
-          console.log(err);
-          return err;
-        });
+          console.log(err)
+          return err
+        })
     },
   },
-};
+}
 </script>

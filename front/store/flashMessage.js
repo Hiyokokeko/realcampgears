@@ -1,7 +1,7 @@
 export const state = () => ({
   message: "",
   type: "",
-  status: false
+  status: false,
 })
 
 export const getters = {
@@ -19,13 +19,13 @@ export const mutations = {
   },
   setStatus(state, bool) {
     state.status = bool
-  }
+  },
 }
 
 export const actions = {
   async showMessage({ commit }, message, type, status) {
-    commit('setMessage', message);
-    commit('setType', type);
-    commit('setStatus', status);
-  }
+    commit("setMessage", message)
+    commit("setType", type)
+    commit("setStatus", status)
+  },
 }

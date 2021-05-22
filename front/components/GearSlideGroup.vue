@@ -34,8 +34,17 @@
 
 <script>
 export default {
-  props: ["gears", "number"],
-};
+  props: {
+    gears: {
+      type: Array,
+      required: true,
+    },
+    number: {
+      type: Number,
+      required: true,
+    },
+  },
+}
 </script>
 
 <style>

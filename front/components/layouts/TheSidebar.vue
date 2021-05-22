@@ -56,10 +56,9 @@ export default {
           to: "/gaidorain",
         },
       ],
-    };
+    }
   },
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>

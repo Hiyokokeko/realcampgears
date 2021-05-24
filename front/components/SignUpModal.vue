@@ -2,7 +2,7 @@
   <v-card>
     <v-system-bar lights-out>
       <v-spacer></v-spacer>
-      <v-btn icon class="mt-5" @click="close">
+      <v-btn icon class="mt-5" @click="signUpDialog(false)">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-system-bar>
@@ -117,7 +117,7 @@ export default {
     },
     passwordRules() {
       const min = "6文字以上"
-      const msg = `${min}。半角英数字•ハイフン•アンダーバーが使用可能。`
+      const msg = `${min}。半角英数字•ハイフン(-)•アンダーバー(_)が使えます`
       const required = (v) => !!v || ""
       const format = (v) => /^[\w-]{6,72}$/.test(v) || msg
       const rules = this.noValidation ? [required] : [format]
@@ -132,22 +132,20 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      signUp: "auth/signUp",
+      loginDialog: "modal/loginUser",
+      signUpDialog: "modal/signUpUser",
+    }),
     setImage(e) {
       this.user.image = e
     },
     registerUser() {
-      this.$emit("closeModal")
       this.signUp(this.user)
     },
-    ...mapActions({
-      signUp: "auth/signUp",
-    }),
-    close() {
-      this.$emit("closeModal")
-    },
     loginLink() {
-      this.$emit("closeModal")
-      this.$emit("loginUser")
+      this.signUpDialog(false)
+      this.loginDialog(true)
     },
   },
 }

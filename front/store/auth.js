@@ -2,10 +2,12 @@ export const state = () => ({
   currentUser: {},
   isLoggedIn: false,
 })
+
 export const getters = {
   currentUser: (state) => state.currentUser,
   isLoggedIn: (state) => state.isLoggedIn,
 }
+
 export const mutations = {
   setCurrentUser(state, user) {
     state.currentUser = user
@@ -44,6 +46,7 @@ export const actions = {
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
         }, 4000)
+        commit("modal/clickSignUpModal", false, { root: true })
         this.$router.push("/")
       })
       // 登録失敗時処理
@@ -75,6 +78,7 @@ export const actions = {
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
         }, 4000)
+        commit("modal/clickLoginModal", false, { root: true })
         this.$router.push("/")
         return res
       })

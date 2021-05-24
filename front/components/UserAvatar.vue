@@ -1,13 +1,13 @@
 <template>
   <div>
     <template v-if="user.image.url !== defaultImage">
-      <v-avatar size="size" class="user-image">
+      <v-avatar :size="size" class="user-image">
         <v-img :src="user.image.url" alt="avatar" />
       </v-avatar>
     </template>
     <template v-else>
-      <v-avatar :size="size" color="grey lighten-1">
-        <v-icon>mdi-account</v-icon>
+      <v-avatar :size="size">
+        <v-img :src="icon" alt="avatar" />
       </v-avatar>
     </template>
   </div>
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       defaultImage: "http://localhost:3000/fallback/default.png",
+      icon: require("@/assets/images/default-user.png"),
     }
   },
   computed: {

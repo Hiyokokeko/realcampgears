@@ -23,21 +23,19 @@
       />
     </div>
     <template v-if="!loggedIn">
-      <v-btn class="ml-4 mr-2" @click.stop="loginDialog = true">
-        ログイン
-      </v-btn>
-      <v-dialog v-model="loginDialog" max-width="600px">
-        <login-modal @closeModal="closeLogin" @newUser="openSignUp" />
+      <v-btn class="ml-4 mr-2" @click.stop="loginDialog(true)">ログイン</v-btn>
+      <v-dialog v-model="loginModal" max-width="600px">
+        <login-modal />
       </v-dialog>
       <v-btn
         class="ml-4 mr-2"
         color="green  white--text font-weight-bold"
-        @click.stop="signUpDialog = true"
+        @click.stop="signUpDialog(true)"
       >
         新規登録
       </v-btn>
-      <v-dialog v-model="signUpDialog" max-width="600px">
-        <sign-up-modal @closeModal="closeSignUp" @loginUser="openLogin" />
+      <v-dialog v-model="signUpModal" max-width="600px">
+        <sign-up-modal />
       </v-dialog>
     </template>
     <template v-else>
@@ -60,7 +58,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import headerAvatar from "~/components/HeaderAvatar.vue"
 import signUpModal from "~/components/SignUpModal.vue"
 import loginModal from "~/components/LoginModal.vue"
@@ -79,8 +77,6 @@ export default {
       drawer: null,
       fixed: true,
       title: "REALCAMPGEARS",
-      signUpDialog: false,
-      loginDialog: false,
       links: [{ to: "/users/signup" }, { to: "/users/login" }],
       search: null,
       tab: null,
@@ -111,23 +107,17 @@ export default {
   computed: {
     ...mapGetters({
       loggedIn: "auth/isLoggedIn",
+      loginModal: "modal/loginModal",
+      signUpModal: "modal/signUpModal",
     }),
   },
   methods: {
+    ...mapActions({
+      loginDialog: "modal/loginUser",
+      signUpDialog: "modal/signUpUser",
+    }),
     pagelink(link) {
       this.$router.push({ path: link })
-    },
-    openSignUp() {
-      this.signUpDialog = true
-    },
-    closeSignUp() {
-      this.signUpDialog = false
-    },
-    openLogin() {
-      this.loginDialog = true
-    },
-    closeLogin() {
-      this.loginDialog = false
     },
   },
 }

@@ -8,4 +8,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   mount_uploader :image, ImageUploader
+
+  has_many :gear_likes, dependent: :destroy
+  has_many :gearlike, through: :gear_likes, source: :gear
 end

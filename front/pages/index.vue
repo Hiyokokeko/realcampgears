@@ -35,7 +35,7 @@ export default {
   },
   created() {
     this.getGears().then(() => {
-      this.gears1 = this.gears.slice(0, 8)
+      this.gears1 = this.gears
       this.loading = true
     })
   },

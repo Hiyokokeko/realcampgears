@@ -105,13 +105,13 @@
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">重量</dt>
                       <dd class="product-spec-description">
-                        <span>{{ gear.weight }}kg</span>
+                        <span>{{ gear.weight }}</span>
                       </dd>
                     </dl>
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">サイズ</dt>
                       <dd class="product-spec-description">
-                        <span>{{ gear.size }}cm</span>
+                        <span>{{ gear.size }}</span>
                       </dd>
                     </dl>
                     <dl class="product-spec-list">
@@ -133,6 +133,7 @@
           </v-row>
         </v-sheet>
       </template>
+      {{ gear }}
     </v-card>
   </v-container>
 </template>

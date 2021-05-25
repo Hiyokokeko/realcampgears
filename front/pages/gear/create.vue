@@ -24,18 +24,18 @@
               label="商品詳細"
             />
             <v-text-field
-              v-model.number="size"
-              placeholder="例:300"
+              v-model="size"
+              placeholder="例:90×120×255(h)mm"
               label="サイズ"
             />
             <v-text-field
-              v-model.number="weight"
-              placeholder="例:1000"
+              v-model="weight"
+              placeholder="例:1.4kg"
               label="重量"
             />
             <v-text-field
               v-model.number="price"
-              placeholder="例:50000"
+              placeholder="例:5000"
               label="商品価格"
             />
             <v-select

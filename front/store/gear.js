@@ -1,14 +1,19 @@
 export const state = () => ({
   gears: [],
+  gear: {},
 })
 
 export const getters = {
   gears: (state) => state.gears,
+  gear: (state) => state.gear,
 }
 
 export const mutations = {
   setGears(state, gears) {
     state.gears = gears.data
+  },
+  setGear(state, gear) {
+    state.gear = gear
   },
 }
 

@@ -13,9 +13,6 @@ module Api
 
       private
 
-      def gear_params
-        params.permit(:name, :details, :size, :weight, :price, :category, :maker, :image)
-      end
     end
   end
 end

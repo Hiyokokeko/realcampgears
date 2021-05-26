@@ -2,8 +2,9 @@ module Api
   module V1
     class GearsController < ApplicationController
       def index
-        @gear = Gear.all
+        @gear = Gear.all.includes(:like_users)
         render json: @gear.as_json(include: :like_users)
+        # render json: @gear.as_json(only: [:id, :name,:image],include: {like_users: {only: ['id']}})
       end
 
       def show

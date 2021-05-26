@@ -10,5 +10,5 @@ class Gear < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   has_many :gear_likes, dependent: :destroy
-  has_many :likeUsers, through: :gear_likes, source: :user
+  has_many :like_users, through: :gear_likes, source: :user
 end

@@ -70,22 +70,22 @@
                   <v-btn color="indigo accent-3 white--text font-weight-bold"
                     >My Gearsに追加</v-btn
                   >
-                  <template v-if="!like">
-                    <v-btn
-                      class="mx-5"
-                      color="green white--text font-weight-bold"
-                      @click="likegear"
-                    >
-                      買いたい!
-                    </v-btn>
-                  </template>
-                  <template v-else>
+                  <template v-if="like">
                     <v-btn
                       class="mx-5"
                       color="red white--text font-weight-bold"
                       @click="unlikegear"
                     >
                       買いたい解除
+                    </v-btn>
+                  </template>
+                  <template v-else>
+                    <v-btn
+                      class="mx-5"
+                      color="green white--text font-weight-bold"
+                      @click="likegear"
+                    >
+                      買いたい！
                     </v-btn>
                   </template>
                   <v-btn color="orange white--text font-weight-bold">
@@ -96,12 +96,6 @@
                 <div class="my-4">
                   <h2 class="show-info pl-5">商品詳細</h2>
                   <div class="mt-5">
-                    <!-- <dl class="product-spec-list">
-                      <dt class="product-spec-term">参考価格</dt>
-                      <dd class="product-spec-description">
-                        <span>500円</span>
-                      </dd>
-                    </dl> -->
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">カテゴリ</dt>
                       <dd class="product-spec-description">
@@ -174,18 +168,25 @@ export default {
         this.$store.commit("gear/setGear", res.data, { root: true })
       })
       .then(() => {
-        this.$axios
-          .$get("/api/v1/isLike", {
-            params: {
-              user_id: this.user.id,
-              gear_id: this.gear.id,
-            },
-          })
-          .then((res) => {
-            console.log(res)
-            this.like = res
-            this.loading = true
-          })
+        // ユーザーがlikeをしているかの確認
+        this.gear.like_users.forEach((f) => {
+          if (f.id === this.user.id) {
+            this.like = true
+          }
+        })
+        this.loading = true
+        // this.$axios
+        //   .$get("/api/v1/isLike", {
+        //     params: {
+        //       user_id: this.user.id,
+        //       gear_id: this.gear.id,
+        //     },
+        //   })
+        //   .then((res) => {
+        //     console.log(res)
+        //     this.like = res
+        //     this.loading = true
+        //   })
       })
   },
   methods: {
@@ -255,6 +256,13 @@ export default {
             this.$store.commit("flashMessage/setStatus", false, { root: true })
           }, 1000)
         })
+    },
+    likeUser() {
+      if (this.gear.like_users.include(this.user)) {
+        this.like = true
+      } else {
+        this.like = false
+      }
     },
   },
 }

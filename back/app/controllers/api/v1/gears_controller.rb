@@ -3,12 +3,12 @@ module Api
     class GearsController < ApplicationController
       def index
         @gear = Gear.all
-        render json: @gear, status: :ok
+        render json: @gear.as_json(include: :like_users)
       end
 
       def show
         @gear = Gear.find(params[:id])
-        render json: @gear, status: :ok
+        render json: @gear.as_json(include: :like_users)
       end
 
       def create

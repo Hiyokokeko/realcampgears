@@ -70,4 +70,76 @@ export const actions = {
         console.log(error)
       })
   },
+  async likeGear({ commit, rootState }, authData) {
+    await this.$axios
+      .$post("/api/v1/gear_likes", {
+        user_id: authData.user,
+        gear_id: authData.gear,
+      })
+      .then(() => {
+        commit("flashMessage/setMessage", "買いたいに追加しました。", {
+          root: true,
+        })
+        commit("flashMessage/setType", "success", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 1000)
+        console.log(rootState.auth.currentUser.id)
+        this.$axios
+          .$get(`/api/v1/users/${rootState.auth.currentUser.id}`)
+          .then((res) => {
+            console.log(res)
+            commit("user/setLoginUser", res, { root: true })
+            console.log("成功")
+          })
+      })
+      .catch((err) => {
+        commit("flashMessage/setMessage", "追加に失敗しました。", {
+          root: true,
+        })
+        commit("flashMessage/setType", "error", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 1000)
+      })
+  },
+  async unLikeGear({ rootState, commit }, authData) {
+    await this.$axios
+      .$delete("/api/v1/gear_likes", {
+        params: {
+          user_id: authData.user,
+          gear_id: authData.gear,
+        },
+      })
+      .then(() => {
+        console.log("unfollow 成功")
+        commit("flashMessage/setMessage", "買いたいから外しました。", {
+          root: true,
+        })
+        commit("flashMessage/setType", "info", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 1000)
+        this.$axios
+          .$get(`/api/v1/users/${rootState.auth.currentUser.id}`)
+          .then((res) => {
+            console.log(res)
+            commit("user/setLoginUser", res, { root: true })
+            console.log("成功")
+          })
+      })
+      .catch((err) => {
+        commit("flashMessage/setMessage", "買いたいから外せませんでした。", {
+          root: true,
+        })
+        commit("flashMessage/setType", "error", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 1000)
+      })
+  },
 }

@@ -5,27 +5,27 @@
         <v-list-item
           v-for="gear in gears"
           :key="gear.id"
-          :to="{ path: `/gear/${gear.id}` }"
+          :ripple="false"
+          class="list"
         >
           <v-list-item-avatar>
             <v-img contain :src="gear.image.url" />
           </v-list-item-avatar>
-          <v-list-item-content :to="{ path: `/gear/${gear.id}` }">
-            <v-list-item-title class="list-item">
-              {{ gear.name }}
-            </v-list-item-title>
-            <v-list-item-subtitle class="ml-6">
-              {{ gear.maker }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-icon>
-            <v-btn icon color="green" class="mr-5" x-small to="/gear/create">
+          <v-list-item-title
+            :to="{ path: `/gear/${gear.id}` }"
+            class="list-item"
+          >
+            {{ gear.name }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{ gear.maker }}
+          </v-list-item-subtitle>
+          <gear-card-menu class="item-action" :gear="gear" />
+          <v-list-item-action>
+            <v-btn icon color="green" class="mr-5" x-small>
               <v-icon> mdi-plus-thick </v-icon>
             </v-btn>
-            <v-btn icon color="grey" class="mr-16" x-small to="/gear/create">
-              <v-icon> mdi-dots-horizontal </v-icon>
-            </v-btn>
-          </v-list-item-icon>
+          </v-list-item-action>
         </v-list-item>
       </v-row>
     </v-list>
@@ -33,7 +33,12 @@
 </template>
 
 <script>
+import gearCardMenu from "~/components/GearCardMenu.vue"
+
 export default {
+  components: {
+    gearCardMenu,
+  },
   props: {
     gears: {
       type: Array,
@@ -43,11 +48,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tab {
   cursor: pointer;
 }
 .list-item {
   width: 100px;
+}
+.list:hover {
+  transition: 0.3s;
+  background-color: #f5f5f5;
+}
+.list {
+  cursor: default;
 }
 </style>

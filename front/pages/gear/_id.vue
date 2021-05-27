@@ -70,24 +70,22 @@
                   <v-btn color="indigo accent-3 white--text font-weight-bold"
                     >My Gearsに追加</v-btn
                   >
-                  <template v-if="like">
-                    <v-btn
-                      class="mx-5"
-                      color="red white--text font-weight-bold"
-                      @click="unlikegear"
-                    >
-                      買いたい解除
-                    </v-btn>
-                  </template>
-                  <template v-else>
-                    <v-btn
-                      class="mx-5"
-                      color="green white--text font-weight-bold"
-                      @click="likegear"
-                    >
-                      買いたい！
-                    </v-btn>
-                  </template>
+                  <v-btn
+                    v-if="like"
+                    class="mx-5"
+                    color="red white--text font-weight-bold"
+                    @click="nice"
+                  >
+                    買いたい解除
+                  </v-btn>
+                  <v-btn
+                    v-else
+                    class="mx-5"
+                    color="green white--text font-weight-bold"
+                    @click="nice"
+                  >
+                    買いたい
+                  </v-btn>
                   <v-btn color="orange white--text font-weight-bold">
                     評価・口コミをする
                   </v-btn>
@@ -144,12 +142,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-
+import { mapGetters, mapActions } from "vuex"
 export default {
   data() {
     return {
-      // gear: {},
       loading: false,
       rating: 4.3,
       like: false,
@@ -168,100 +164,42 @@ export default {
         this.$store.commit("gear/setGear", res.data, { root: true })
       })
       .then(() => {
-        // ユーザーがlikeをしているかの確認
+        // ユーザーがlikeしているか確認
         this.gear.like_users.forEach((f) => {
           if (f.id === this.user.id) {
             this.like = true
           }
         })
         this.loading = true
-        // this.$axios
-        //   .$get("/api/v1/isLike", {
-        //     params: {
-        //       user_id: this.user.id,
-        //       gear_id: this.gear.id,
-        //     },
-        //   })
-        //   .then((res) => {
-        //     console.log(res)
-        //     this.like = res
-        //     this.loading = true
-        //   })
       })
   },
+  // async mounted() {
+  //   let res = await this.$axios.$get("/api/v1/isLike", {
+  //     params: {
+  //       user_id: this.$store.state.auth.currentUser.id,
+  //       gear_id: this.$store.state.gear.gear.id,
+  //     },
+  //   })
+  //   this.like = Boolean(res)
+  // },
   methods: {
-    likegear() {
-      this.$axios
-        .$post("/api/v1/gear_likes", {
-          user_id: this.user.id,
-          gear_id: this.gear.id,
-        })
-        .then((res) => {
-          this.$store.commit(
-            "flashMessage/setMessage",
-            "買いたいに追加しました。",
-            { root: true }
-          )
-          this.$store.commit("flashMessage/setType", "success", { root: true })
-          this.$store.commit("flashMessage/setStatus", true, { root: true })
-          setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true })
-          }, 1000)
-          this.like = true
-        })
-        .catch((err) => {
-          this.$store.commit(
-            "flashMessage/setMessage",
-            "追加に失敗しました。",
-            { root: true }
-          )
-          this.$store.commit("flashMessage/setType", "error", { root: true })
-          this.$store.commit("flashMessage/setStatus", true, { root: true })
-          setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true })
-          }, 1000)
-        })
-    },
-    unlikegear() {
-      this.$axios
-        .$delete("/api/v1/gear_likes", {
-          params: {
-            user_id: this.$store.state.auth.currentUser.id,
-            gear_id: this.$route.params.id,
-          },
-        })
-        .then((res) => {
-          console.log("unfollow 成功")
-          this.$store.commit(
-            "flashMessage/setMessage",
-            "買いたいから外しました。",
-            { root: true }
-          )
-          this.$store.commit("flashMessage/setType", "info", { root: true })
-          this.$store.commit("flashMessage/setStatus", true, { root: true })
-          setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true })
-          }, 1000)
+    ...mapActions({
+      likeGear: "gear/likeGear",
+      unLikeGear: "gear/unLikeGear",
+    }),
+    nice() {
+      const gearData = {
+        user: this.user.id,
+        gear: this.gear.id,
+      }
+      if (this.like) {
+        this.unLikeGear(gearData).then(() => {
           this.like = false
         })
-        .catch((err) => {
-          this.$store.commit(
-            "flashMessage/setMessage",
-            "買いたいから外せませんでした。",
-            { root: true }
-          )
-          this.$store.commit("flashMessage/setType", "error", { root: true })
-          this.$store.commit("flashMessage/setStatus", true, { root: true })
-          setTimeout(() => {
-            this.$store.commit("flashMessage/setStatus", false, { root: true })
-          }, 1000)
-        })
-    },
-    likeUser() {
-      if (this.gear.like_users.include(this.user)) {
-        this.like = true
       } else {
-        this.like = false
+        this.likeGear(gearData).then(() => {
+          this.like = true
+        })
       }
     },
   },

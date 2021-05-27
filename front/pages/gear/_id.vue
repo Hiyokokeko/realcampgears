@@ -71,10 +71,20 @@
                     >My Gearsに追加</v-btn
                   >
                   <v-btn
+                    v-if="like"
+                    class="mx-5"
+                    color="red white--text font-weight-bold"
+                    @click="nice"
+                  >
+                    買いたい解除
+                  </v-btn>
+                  <v-btn
+                    v-else
                     class="mx-5"
                     color="green white--text font-weight-bold"
+                    @click="nice"
                   >
-                    買いたい！
+                    買いたい
                   </v-btn>
                   <v-btn color="orange white--text font-weight-bold">
                     評価・口コミをする
@@ -84,12 +94,6 @@
                 <div class="my-4">
                   <h2 class="show-info pl-5">商品詳細</h2>
                   <div class="mt-5">
-                    <!-- <dl class="product-spec-list">
-                      <dt class="product-spec-term">参考価格</dt>
-                      <dd class="product-spec-description">
-                        <span>500円</span>
-                      </dd>
-                    </dl> -->
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">カテゴリ</dt>
                       <dd class="product-spec-description">
@@ -133,29 +137,72 @@
           </v-row>
         </v-sheet>
       </template>
-      {{ gear }}
     </v-card>
   </v-container>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex"
 export default {
   data() {
     return {
-      gear: {},
       loading: false,
       rating: 4.3,
+      like: false,
     }
   },
-  created() {
-    this.$axios.get(`api/v1/gears/${this.$route.params.id}`).then((res) => {
-      this.gear = res.data
-      console.log(res)
-      console.log(res.data)
-      this.loading = true
-    })
+  computed: {
+    ...mapGetters({
+      gear: "gear/gear",
+      user: "auth/currentUser",
+    }),
   },
-  methods: {},
+  created() {
+    this.$axios
+      .get(`api/v1/gears/${this.$route.params.id}`)
+      .then((res) => {
+        this.$store.commit("gear/setGear", res.data, { root: true })
+      })
+      .then(() => {
+        // ユーザーがlikeしているか確認
+        this.gear.like_users.forEach((f) => {
+          if (f.id === this.user.id) {
+            this.like = true
+          }
+        })
+        this.loading = true
+      })
+  },
+  // async mounted() {
+  //   let res = await this.$axios.$get("/api/v1/isLike", {
+  //     params: {
+  //       user_id: this.$store.state.auth.currentUser.id,
+  //       gear_id: this.$store.state.gear.gear.id,
+  //     },
+  //   })
+  //   this.like = Boolean(res)
+  // },
+  methods: {
+    ...mapActions({
+      likeGear: "gear/likeGear",
+      unLikeGear: "gear/unLikeGear",
+    }),
+    nice() {
+      const gearData = {
+        user: this.user.id,
+        gear: this.gear.id,
+      }
+      if (this.like) {
+        this.unLikeGear(gearData).then(() => {
+          this.like = false
+        })
+      } else {
+        this.likeGear(gearData).then(() => {
+          this.like = true
+        })
+      }
+    },
+  },
 }
 </script>
 

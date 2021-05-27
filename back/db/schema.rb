@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_24_064343) do
+ActiveRecord::Schema.define(version: 2021_05_25_034430) do
+
+  create_table "gear_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "gear_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["gear_id"], name: "index_gear_likes_on_gear_id"
+    t.index ["user_id", "gear_id"], name: "index_gear_likes_on_user_id_and_gear_id", unique: true
+    t.index ["user_id"], name: "index_gear_likes_on_user_id"
+  end
 
   create_table "gears", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -54,4 +64,6 @@ ActiveRecord::Schema.define(version: 2021_05_24_064343) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "gear_likes", "gears"
+  add_foreign_key "gear_likes", "users"
 end

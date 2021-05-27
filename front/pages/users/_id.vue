@@ -31,7 +31,6 @@
           <v-divider />
           <v-tabs v-model="tab" background-color="grey lighten-4" height="60">
             <v-tabs-slider></v-tabs-slider>
-
             <v-tab v-for="item in items" :key="item.title">
               {{ item.title }}
             </v-tab>
@@ -40,11 +39,15 @@
       </v-card>
       <v-container class="px-13">
         <v-tabs-items v-model="tab">
-          <v-tab-item v-for="item in items" :key="item.title">
-            <v-card flat>
-              <v-card-text v-text="item.title"></v-card-text>
-              {{ user }}
-            </v-card>
+          <v-tab-item>
+            <gear-list :gears="user.gearlike" />
+          </v-tab-item>
+          <v-tab-item>
+            <gear-list :gears="user.gearlike" />
+          </v-tab-item>
+          <v-tab-item></v-tab-item>
+          <v-tab-item>
+            <gear-list :gears="user.gearlike" />
           </v-tab-item>
         </v-tabs-items>
       </v-container>
@@ -53,15 +56,18 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex"
 import userAvatar from "~/components/UserAvatar.vue"
+import gearList from "~/components/GearList.vue"
 
 export default {
   components: {
     userAvatar,
+    gearList,
   },
   data() {
     return {
-      user: {},
+      // user: {},
       loading: false,
       tab: null,
       items: [
@@ -82,12 +88,19 @@ export default {
   },
   created() {
     this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
-      this.user = res.data
+      this.$store.commit("user/setLoginUser", res.data, { root: true })
       console.log(res.data)
       this.loading = true
     })
   },
-  methods: {},
+  computed: {
+    ...mapGetters({ user: "user/loginUser" }),
+  },
+  methods: {
+    // ...mapActions({
+    //   getUser: "user/getUser",
+    // }),
+  },
 }
 </script>
 

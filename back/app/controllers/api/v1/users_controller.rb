@@ -7,15 +7,12 @@ module Api
       end
 
       def show
-        @user = User.find(params[:id])
-        render json: @user, status: :ok
+        @user = User.includes({gearlike: :like_users}).find(params[:id])
+        render json: @user.as_json(include: {gearlike: {include: {like_users: {only: ['id']}}}})
       end
 
       private
 
-      def gear_params
-        params.permit(:name, :details, :size, :weight, :price, :category, :maker, :image)
-      end
     end
   end
 end

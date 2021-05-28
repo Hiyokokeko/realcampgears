@@ -55,6 +55,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex"
+
 export default {
   props: {
     gear: {
@@ -80,23 +81,16 @@ export default {
     }),
   },
   mounted() {
-    this.like = false
-    this.liking = []
     this.loginUser.gearlike.forEach((gear) => {
       if (gear.name === this.gear.name) {
         this.liking.push(gear.name)
       }
     })
-    console.log(this.liking)
-    // console.log(this.gear.name)
     if (this.liking[0] === this.gear.name) {
-      this.like = true
       this.heart = true
     } else {
-      this.like = false
       this.heart = false
     }
-    console.log(this.like)
   },
   beforeUpdate() {
     this.like = false
@@ -106,14 +100,11 @@ export default {
         this.liking.push(gear.name)
       }
     })
-    console.log(this.liking)
-    // console.log(this.gear.name)
     if (this.liking[0] === this.gear.name) {
       this.like = true
     } else {
       this.like = false
     }
-    console.log(this.like)
   },
   methods: {
     ...mapActions({

@@ -20,7 +20,7 @@
           <v-list-item-subtitle>
             {{ gear.maker }}
           </v-list-item-subtitle>
-          <gear-card-menu class="item-action" :gear="gear" />
+          <gear-card-menu :gear="gear" />
           <v-list-item-action>
             <v-btn icon color="green" class="mr-5" x-small>
               <v-icon> mdi-plus-thick </v-icon>

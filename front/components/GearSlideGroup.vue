@@ -18,12 +18,10 @@
               {{ gear.maker }}
             </v-list-item-subtitle>
           </v-list-item-content>
+          <gear-card-menu :gear="gear" />
           <v-list-item-icon>
             <v-btn icon color="green" class="mr-5" x-samll to="/gear/create">
               <v-icon> mdi-plus-thick </v-icon>
-            </v-btn>
-            <v-btn icon color="grey" class="mr-16" x-small to="/gear/create">
-              <v-icon> mdi-dots-horizontal </v-icon>
             </v-btn>
           </v-list-item-icon>
         </v-list-item>
@@ -33,7 +31,12 @@
 </template>
 
 <script>
+import gearCardMenu from "~/components/GearCardMenu.vue"
+
 export default {
+  components: {
+    gearCardMenu,
+  },
   props: {
     gears: {
       type: Array,

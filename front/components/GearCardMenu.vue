@@ -1,7 +1,7 @@
 <template>
   <v-menu
     v-model="menu"
-    transition="slide-y-transition"
+    transition="slide-x-reverse-transition"
     min-width="200px"
     max-width="350px"
     rounded
@@ -11,7 +11,8 @@
   >
     <template #activator="{ on, attrs }">
       <v-btn icon text color="grey" v-bind="attrs" :ripple="false" v-on="on">
-        <v-icon v-on="on"> mdi-dots-horizontal </v-icon>
+        <v-icon v-on="on" v-if="heart" color="red"> mdi-heart </v-icon>
+        <v-icon v-on="on" v-else> mdi-dots-horizontal </v-icon>
       </v-btn>
     </template>
     <v-card>
@@ -68,14 +69,34 @@ export default {
       liking: [],
       like: false,
       users: this.gear.like_users,
+      heart: Boolean,
     }
   },
   computed: {
     ...mapGetters({
       user: "user/user",
-      loginUser: "user/loginUser",
+      loginUser: "auth/loginUser",
       currentUser: "auth/currentUser",
     }),
+  },
+  mounted() {
+    this.like = false
+    this.liking = []
+    this.loginUser.gearlike.forEach((gear) => {
+      if (gear.name === this.gear.name) {
+        this.liking.push(gear.name)
+      }
+    })
+    console.log(this.liking)
+    // console.log(this.gear.name)
+    if (this.liking[0] === this.gear.name) {
+      this.like = true
+      this.heart = true
+    } else {
+      this.like = false
+      this.heart = false
+    }
+    console.log(this.like)
   },
   beforeUpdate() {
     this.like = false
@@ -108,10 +129,12 @@ export default {
         this.unLikeGear(gearData).then(() => {
           this.like = false
           console.log(this.like)
+          this.heart = false
         })
       } else {
         this.likeGear(gearData).then(() => {
           console.log(this.like)
+          this.heart = false
         })
       }
     },

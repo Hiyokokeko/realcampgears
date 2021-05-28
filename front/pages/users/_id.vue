@@ -78,6 +78,12 @@ export default {
           title: "買いたい！",
         },
         {
+          title: "投稿した口コミ",
+        },
+        {
+          title: "いいねした口コミ",
+        },
+        {
           title: "フォロー",
         },
         {
@@ -88,13 +94,13 @@ export default {
   },
   created() {
     this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
-      this.$store.commit("user/setLoginUser", res.data, { root: true })
+      this.$store.commit("user/setUser", res.data, { root: true })
       console.log(res.data)
       this.loading = true
     })
   },
   computed: {
-    ...mapGetters({ user: "user/loginUser" }),
+    ...mapGetters({ user: "user/user" }),
   },
   methods: {
     // ...mapActions({

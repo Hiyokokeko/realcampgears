@@ -2,10 +2,12 @@ export const state = () => ({
   currentUser: {},
   isLoggedIn: false,
 })
+
 export const getters = {
   currentUser: (state) => state.currentUser,
   isLoggedIn: (state) => state.isLoggedIn,
 }
+
 export const mutations = {
   setCurrentUser(state, user) {
     state.currentUser = user
@@ -14,6 +16,7 @@ export const mutations = {
     state.isLoggedIn = bool
   },
 }
+
 export const actions = {
   async signUp({ commit }, authData) {
     const form = new FormData()
@@ -69,6 +72,7 @@ export const actions = {
       .then((res) => {
         console.log(res.data)
         commit("setCurrentUser", res.data)
+        commit("user/setLoginUser", res.data, { root: true })
         commit("setIsLoggedIn", true)
         commit("flashMessage/setMessage", "ログインしました。", { root: true })
         commit("flashMessage/setType", "success", { root: true })

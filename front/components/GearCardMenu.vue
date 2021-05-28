@@ -65,24 +65,35 @@ export default {
     return {
       defaultImage: "http://localhost:3000/fallback/default.png",
       menu: false,
-      like: true,
+      liking: [],
+      like: false,
       users: this.gear.like_users,
     }
   },
   computed: {
     ...mapGetters({
-      user: "user/loginUser",
+      user: "user/user",
+      loginUser: "user/loginUser",
+      currentUser: "auth/currentUser",
     }),
   },
-  // beforeUpdate() {
-  //   this.like = false
-  //   this.users.forEach((f) => {
-  //     if (f.id === this.user.id) {
-  //       this.like = true
-  //     }
-  //     console.log(this.like)
-  //   })
-  // },
+  beforeUpdate() {
+    this.like = false
+    this.liking = []
+    this.loginUser.gearlike.forEach((gear) => {
+      if (gear.name === this.gear.name) {
+        this.liking.push(gear.name)
+      }
+    })
+    console.log(this.liking)
+    // console.log(this.gear.name)
+    if (this.liking[0] === this.gear.name) {
+      this.like = true
+    } else {
+      this.like = false
+    }
+    console.log(this.like)
+  },
   methods: {
     ...mapActions({
       likeGear: "gear/likeGear",
@@ -90,7 +101,7 @@ export default {
     }),
     nice() {
       const gearData = {
-        user: this.user.id,
+        user: this.loginUser.id,
         gear: this.gear.id,
       }
       if (this.like) {
@@ -108,5 +119,22 @@ export default {
       this.$router.push({ path: link })
     },
   },
+  // dolike() {
+  //   this.like = false
+  //   this.liking = []
+  //   this.loginUser.gearlike.forEach((gear) => {
+  //     if (gear.name === this.gear.name) {
+  //       this.liking.push(gear.name)
+  //     }
+  //   })
+  //   console.log(this.liking)
+  //   console.log(this.gear.name)
+  //   if (this.liking[0] == this.gear.name) {
+  //     this.like = true
+  //   } else {
+  //     this.like = false
+  //   }
+  //   console.log(this.like)
+  // },
 }
 </script>

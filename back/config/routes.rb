@@ -8,7 +8,8 @@ Rails.application.routes.draw do
       }
       get 'isLike', to: 'gear_likes#isLike'
       resources :gears
-      resources :users
+      resources :users, only: [:index, :show]
+      resources :reviews, only: [:create, :destroy]
       resource :gear_likes, only: [:create, :destroy]
     end
   end

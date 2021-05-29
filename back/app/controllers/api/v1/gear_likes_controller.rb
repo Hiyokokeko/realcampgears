@@ -1,10 +1,10 @@
 module Api
   module V1
     class GearLikesController < ApplicationController
-      before_action :set_user
+      before_action :set_user, only: [:destroy]
 
       def create
-        likegear = @user.like(@gear)
+        likegear = GearLike.new(like_params)
         if likegear.save
           render json: @user
         else
@@ -32,6 +32,10 @@ module Api
       def set_user
         @user = User.find(params[:user_id])
         @gear = Gear.find(params[:gear_id])
+      end
+
+      def like_params
+        params.permit(:user_id, :gear_id)
       end
     end
   end

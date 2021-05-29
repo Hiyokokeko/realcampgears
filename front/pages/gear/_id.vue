@@ -66,7 +66,7 @@
                   </small>
                 </div>
                 <v-divder />
-                <div class="font-weight-bold my-5">
+                <div v-if="login" class="font-weight-bold my-5">
                   <v-btn color="indigo accent-3 white--text font-weight-bold"
                     >My Gearsに追加</v-btn
                   >
@@ -84,11 +84,17 @@
                     color="green white--text font-weight-bold"
                     @click="nice"
                   >
-                    買いたい
+                    買いたい!
                   </v-btn>
-                  <v-btn color="orange white--text font-weight-bold">
+                  <v-btn
+                    color="orange white--text font-weight-bold"
+                    @click.stop="reviewDialog"
+                  >
                     評価・口コミをする
                   </v-btn>
+                  <v-dialog v-model="reviewDialog" max-width="600px">
+                    <gear-review />
+                  </v-dialog>
                 </div>
                 <v-divider />
                 <div class="my-4">
@@ -143,18 +149,25 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex"
+import gearReview from "~/components/GearReview.vue"
+
 export default {
+  components: {
+    gearReview,
+  },
   data() {
     return {
       loading: false,
       rating: 4.3,
       like: false,
+      reviewDialog: false,
     }
   },
   computed: {
     ...mapGetters({
       gear: "gear/gear",
-      user: "auth/currentUser",
+      user: "auth/loginUser",
+      login: "auth/isLoggedIn",
     }),
   },
   created() {
@@ -164,12 +177,14 @@ export default {
         this.$store.commit("gear/setGear", res.data, { root: true })
       })
       .then(() => {
-        // ユーザーがlikeしているか確認
-        this.gear.like_users.forEach((f) => {
-          if (f.id === this.user.id) {
-            this.like = true
-          }
-        })
+        // ユーザーがログインしてたらlikeしているか確認
+        if (this.login) {
+          this.gear.like_users.forEach((f) => {
+            if (f.id === this.user.id) {
+              this.like = true
+            }
+          })
+        }
         this.loading = true
       })
   },

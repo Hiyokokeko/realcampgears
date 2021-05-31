@@ -28,7 +28,7 @@ module Api
       # end
 
       def review_params
-        params.permit(:user_id, :gear_id, :title, :content, :image)
+        params.permit(:user_id, :gear_id, :title, :rate, :content, :image)
       end
     end
   end

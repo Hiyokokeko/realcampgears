@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-5 px-10">
-    <v-card flat>
-      <template v-if="loading">
+    <template v-if="loading">
+      <v-card flat>
         <v-row class="mx-1" no-gutters>
           <v-chip
             class="mb-1 font-weight-bold"
@@ -60,7 +60,7 @@
                     {{ rating }}
                   </span>
                   <small class="ml-10">
-                    口コミ数: 0人
+                    口コミ数: 0
                     <br />
                     買いたい: 0人
                   </small>
@@ -86,11 +86,11 @@
                   >
                     買いたい!
                   </v-btn>
-                  <gear-review :gear="gear" />
+                  <gear-review-modal v-if="review" :gear="gear" />
                 </div>
                 <v-divider />
                 <div class="my-4">
-                  <h2 class="show-info pl-5">商品詳細</h2>
+                  <h2 class="show-info pl-3">商品詳細</h2>
                   <div class="mt-5">
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">カテゴリ</dt>
@@ -134,24 +134,44 @@
             </v-col>
           </v-row>
         </v-sheet>
-      </template>
-    </v-card>
+      </v-card>
+      <v-divider class="my-5" />
+      <v-card flat>
+        <v-row no-getters>
+          <v-col cols="12" md="8">
+            <v-card flat>
+              <h3 class="show-info pl-3 mb-2">口コミ一覧</h3>
+              <gear-review-list :reviews="gear.reviews" />
+            </v-card>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-card flat>
+              <h3 class="mb-2">カスタマーレビュー</h3>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </template>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
-import gearReview from "~/components/GearReview.vue"
+import gearReviewModal from "~/components/GearReviewModal.vue"
+import gearReviewList from "~/components/GearReviewList.vue"
 
 export default {
   components: {
-    gearReview,
+    gearReviewModal,
+    gearReviewList,
   },
   data() {
     return {
       loading: false,
       rating: 4.3,
       like: false,
+      review: true,
     }
   },
   computed: {
@@ -173,6 +193,16 @@ export default {
           this.gear.like_users.forEach((f) => {
             if (f.id === this.user.id) {
               this.like = true
+            }
+          })
+        }
+        // ユーザーがすでにレビューを投稿してたら非表示にする
+        console.log(this.user.id)
+        if (this.login) {
+          this.gear.reviews.forEach((f) => {
+            if (f.user_id === this.user.id) {
+              this.review = false
+              console.log(this.review)
             }
           })
         }

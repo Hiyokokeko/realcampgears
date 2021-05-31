@@ -86,15 +86,7 @@
                   >
                     買いたい!
                   </v-btn>
-                  <v-btn
-                    color="orange white--text font-weight-bold"
-                    @click.stop="reviewDialog"
-                  >
-                    評価・口コミをする
-                  </v-btn>
-                  <v-dialog v-model="reviewDialog" max-width="600px">
-                    <gear-review />
-                  </v-dialog>
+                  <gear-review :gear="gear" />
                 </div>
                 <v-divider />
                 <div class="my-4">
@@ -160,7 +152,6 @@ export default {
       loading: false,
       rating: 4.3,
       like: false,
-      reviewDialog: false,
     }
   },
   computed: {

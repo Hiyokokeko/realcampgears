@@ -140,14 +140,22 @@
         <v-row no-getters>
           <v-col cols="12" md="8">
             <v-card flat>
-              <h3 class="show-info pl-3 mb-2">口コミ一覧</h3>
-              <gear-review-list :reviews="gear.reviews" />
+              <h3 class="show-info pl-2 mb-2">
+                口コミ<span>（{{ gear.reviews.length }}）</span>
+              </h3>
+              <template v-if="gear.reviews.length === 0">
+                <h4 class="my-5 text-decoration-underline">口コミ募集中！</h4>
+                <gear-review-modal :gear="gear" />
+              </template>
+              <template v-else>
+                <gear-review-list :reviews="gear.reviews" />
+              </template>
             </v-card>
           </v-col>
           <v-col cols="12" md="4">
             <v-card flat>
-              <h3 class="mb-2">カスタマーレビュー</h3>
-              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+              <h3 class="mb-2 pl-2 show-info">カスタマーレビュー</h3>
+              <v-card height="300px">作成中</v-card>
             </v-card>
           </v-col>
         </v-row>
@@ -207,7 +215,6 @@ export default {
             }
           })
         }
-        console.log(this.gear.release)
         this.createDate = this.$dayjs(this.gear.created_at).format("YYYY/MM/DD")
         this.loading = true
       })

@@ -12,7 +12,7 @@
             {{ gear.category }}
           </v-chip>
           <v-spacer />
-          <p class="caption">更新日時 : {{ gear.created_at }}</p>
+          <p class="caption">更新日時 : {{ createDate }}</p>
         </v-row>
         <div
           class="
@@ -172,6 +172,7 @@ export default {
       rating: 4.3,
       like: false,
       review: true,
+      createDate: "",
     }
   },
   computed: {
@@ -206,6 +207,8 @@ export default {
             }
           })
         }
+        console.log(this.gear.release)
+        this.createDate = this.$dayjs(this.gear.created_at).format("YYYY/MM/DD")
         this.loading = true
       })
   },

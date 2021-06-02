@@ -93,7 +93,7 @@
               block
               @click="gearReviewEdit"
             >
-              新規投稿
+              口コミ編集
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -134,9 +134,7 @@ export default {
       this.editDialog = false
     },
     setImage(file) {
-      console.log(this.reviewEdit.image)
       this.reviewEdit.image = file
-      console.log(this.reviewEdit.image)
       if (file !== undefined && file !== null) {
         if (file.name.lastIndexOf(".") <= 0) {
           return
@@ -145,7 +143,6 @@ export default {
         fr.readAsDataURL(file)
         fr.addEventListener("load", () => {
           this.input_image = fr.result
-          console.log(this.input_image)
         })
       } else {
         this.input_image = null

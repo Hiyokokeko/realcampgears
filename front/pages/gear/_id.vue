@@ -205,6 +205,7 @@ export default {
     loginUserReview() {
       // レビューを既に投稿しているユーザーは非表示にする
       if (this.login) {
+        this.review = true
         this.gear.reviews.forEach((f) => {
           if (f.user_id === this.user.id) {
             this.review = false

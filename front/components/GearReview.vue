@@ -43,6 +43,7 @@
         <span class="ml-1">(5)</span>
       </v-btn>
       <gear-review-edit :review="review" />
+      <gear-review-delete :review="review" />
       <v-spacer />
       <p class="review-content caption">投稿日: {{ createDate }}</p>
     </div>
@@ -52,11 +53,13 @@
 <script>
 import userAvatar from "~/components/UserAvatar.vue"
 import gearReviewEdit from "~/components/GearReviewEdit.vue"
+import gearReviewDelete from "~/components/GearReviewDelete.vue"
 
 export default {
   components: {
     userAvatar,
     gearReviewEdit,
+    gearReviewDelete,
   },
   props: {
     review: {

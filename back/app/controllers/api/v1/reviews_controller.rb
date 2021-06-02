@@ -11,6 +11,15 @@ module Api
         end
       end
 
+      def update
+        @review = Review.find(params[:review_id])
+        if @review.update(review_params)
+          render json: @review
+        else
+          render json: { status: 400 }
+        end
+      end
+
       def destroy
         review = Review.find(params[:id])
         if review.destroy

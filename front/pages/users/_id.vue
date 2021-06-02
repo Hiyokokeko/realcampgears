@@ -61,6 +61,7 @@ import userAvatar from "~/components/UserAvatar.vue"
 import gearList from "~/components/GearList.vue"
 
 export default {
+  name: "REALCAMPGEARS",
   components: {
     userAvatar,
     gearList,

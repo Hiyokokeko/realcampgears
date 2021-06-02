@@ -18,6 +18,7 @@ import gearCarousel from "~/components/GearCarousel.vue"
 import gearRanking from "~/components/GearRanking.vue"
 
 export default {
+  name: "REALCAMPGEARS",
   components: {
     gearCarousel,
     headerCarousel,

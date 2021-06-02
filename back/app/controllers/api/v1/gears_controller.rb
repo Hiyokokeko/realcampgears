@@ -8,8 +8,8 @@ module Api
       end
 
       def show
-        @gear = Gear.includes(:like_users, {reviews: :user}).find(params[:id])
-        render json: @gear.as_json(include: [:like_users, {reviews: {include: {user: {only: ['id', 'image', 'name']}}}}])
+        @gear = Gear.includes(:like_users, {reviews: [:gear, :user]}).find(params[:id])
+        render json: @gear.as_json(include: [:like_users, {reviews: {include: [{user: {only: ['id', 'image', 'name']}}, {gear: {only: [:name]}}]}}])
       end
 
       def create

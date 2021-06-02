@@ -25,7 +25,8 @@
     <v-card>
       <v-list-item two-line :to="{ path: `/gear/${gear.id}` }">
         <v-list-item-avatar>
-          <v-img :src="gear.image.url" />
+          <v-img v-if="gear.image.url" :src="gear.image.url" />
+          <v-img v-else :src="defaultImage" />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
@@ -74,11 +75,11 @@ export default {
   },
   data() {
     return {
-      defaultImage: "http://localhost:3000/fallback/default.png",
       menu: false,
       liking: [],
       like: Boolean,
       users: this.gear.like_users,
+      defaultImage: require("@/assets/images/default.png"),
     }
   },
   computed: {

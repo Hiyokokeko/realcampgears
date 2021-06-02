@@ -32,13 +32,19 @@
         <v-sheet>
           <v-row no-gutters>
             <v-col cols="12" sm="4">
-              <v-img :src="gear.image.url" contain />
+              <v-img v-if="gear.image.url" :src="gear.image.url" contain />
+              <v-img v-else :src="defaultImage" contain />
               <div class="text-center font-weight-bold mb-3 mt-1">
                 {{ gear.name }}
               </div>
               <v-divider />
               <v-avatar size="50" class="mr-3 my-4 samll-image">
-                <v-img :src="gear.image.url" alt="avatar" />
+                <v-img
+                  v-if="gear.image.url"
+                  :src="gear.image.url"
+                  alt="avatar"
+                />
+                <v-img v-else :src="defaultImage" contain />
               </v-avatar>
               <v-divder />
             </v-col>
@@ -181,6 +187,7 @@ export default {
       like: false,
       review: true,
       createDate: "",
+      defaultImage: require("@/assets/images/default.png"),
     }
   },
   computed: {
@@ -189,6 +196,31 @@ export default {
       user: "auth/loginUser",
       login: "auth/isLoggedIn",
     }),
+    loginUserReview() {
+      return this.$store.state.gear.gear
+    },
+  },
+  // async mounted() {
+  //   let res = await this.$axios.$get("/api/v1/isLike", {
+  //     params: {
+  //       user_id: this.$store.state.auth.currentUser.id,
+  //       gear_id: this.$store.state.gear.gear.id,
+  //     },
+  //   })
+  //   this.like = Boolean(res)
+  // },
+  watch: {
+    loginUserReview() {
+      console.log(this.user.id)
+      if (this.login) {
+        this.gear.reviews.forEach((f) => {
+          if (f.user_id === this.user.id) {
+            this.review = false
+            console.log(this.review)
+          }
+        })
+      }
+    },
   },
   created() {
     this.$axios
@@ -219,15 +251,6 @@ export default {
         this.loading = true
       })
   },
-  // async mounted() {
-  //   let res = await this.$axios.$get("/api/v1/isLike", {
-  //     params: {
-  //       user_id: this.$store.state.auth.currentUser.id,
-  //       gear_id: this.$store.state.gear.gear.id,
-  //     },
-  //   })
-  //   this.like = Boolean(res)
-  // },
   methods: {
     ...mapActions({
       likeGear: "gear/likeGear",

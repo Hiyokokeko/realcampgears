@@ -8,7 +8,8 @@
           :to="{ path: `/gear/${gear.id}` }"
         >
           <v-list-item-avatar>
-            <v-img contain :src="gear.image.url" />
+            <v-img v-if="gear.image.url" contain :src="gear.image.url" />
+            <v-img v-else contain :src="defaultImage" />
           </v-list-item-avatar>
           <v-list-item-content :to="{ path: `/gear/${gear.id}` }">
             <v-list-item-title class="list-item">
@@ -46,6 +47,11 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  data() {
+    return {
+      defaultImage: require("@/assets/images/default.png"),
+    }
   },
 }
 </script>

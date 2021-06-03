@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-2">
-    <NuxtLink :to="{ path: `/gear/${review.gear.id}` }">
-      <div class="d-flex align-center">
+    <div class="d-flex align-center">
+      <nuxt-link :to="{ path: `/gear/${review.gear.id}` }">
         <v-avatar size="50" class="mr-3 my-4 small-image">
           <v-img
             v-if="review.gear.image.url"
@@ -11,11 +11,13 @@
           />
           <v-img v-else :src="defaultImage" contain />
         </v-avatar>
-        <span class="ml-2 body-2">
+      </nuxt-link>
+      <nuxt-link :to="{ path: `/gear/${review.gear.id}` }">
+        <span class="ml-2 body-2 black--text">
           {{ review.gear.name }}
         </span>
-      </div>
-    </NuxtLink>
+      </nuxt-link>
+    </div>
     <div class="d-flex align-center">
       <v-rating
         v-model="rating"
@@ -110,6 +112,9 @@ export default {
   border: 1px solid;
   border-radius: 9px;
   border-color: #bdbdbd;
+}
+.small-image:hover {
+  opacity: 0.7;
 }
 .arrow_box {
   position: relative;

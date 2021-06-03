@@ -9,7 +9,8 @@
           class="list"
         >
           <v-list-item-avatar>
-            <v-img contain :src="gear.image.url" />
+            <v-img v-if="gear.image.url" contain :src="gear.image.url" />
+            <v-img v-else contain :src="defaultImage" />
           </v-list-item-avatar>
           <v-list-item-title
             :to="{ path: `/gear/${gear.id}` }"
@@ -20,7 +21,7 @@
           <v-list-item-subtitle>
             {{ gear.maker }}
           </v-list-item-subtitle>
-          <gear-card-menu class="item-action" :gear="gear" />
+          <gear-card-menu :gear="gear" />
           <v-list-item-action>
             <v-btn icon color="green" class="mr-5" x-small>
               <v-icon> mdi-plus-thick </v-icon>
@@ -44,6 +45,11 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data() {
+    return {
+      defaultImage: require("@/assets/images/default.png"),
+    }
   },
 }
 </script>

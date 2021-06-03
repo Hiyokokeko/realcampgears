@@ -40,12 +40,14 @@
       <v-container class="px-13">
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <gear-list :gears="user.gearlike" />
+            <user-review-list :reviews="user.reviews" />
           </v-tab-item>
           <v-tab-item>
             <gear-list :gears="user.gearlike" />
           </v-tab-item>
-          <v-tab-item></v-tab-item>
+          <v-tab-item>
+            <user-review-list :reviews="user.reviews" />
+          </v-tab-item>
           <v-tab-item>
             <gear-list :gears="user.gearlike" />
           </v-tab-item>
@@ -59,11 +61,14 @@
 import { mapGetters, mapActions } from "vuex"
 import userAvatar from "~/components/UserAvatar.vue"
 import gearList from "~/components/GearList.vue"
+import userReviewList from "~/components/UserReviewList.vue"
 
 export default {
+  name: "REALCAMPGEARS",
   components: {
     userAvatar,
     gearList,
+    userReviewList,
   },
   data() {
     return {
@@ -78,6 +83,12 @@ export default {
           title: "買いたい！",
         },
         {
+          title: "投稿した口コミ",
+        },
+        {
+          title: "いいねした口コミ",
+        },
+        {
           title: "フォロー",
         },
         {
@@ -88,13 +99,25 @@ export default {
   },
   created() {
     this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
-      this.$store.commit("user/setLoginUser", res.data, { root: true })
+      this.$store.commit("user/setUser", res.data, { root: true })
       console.log(res.data)
       this.loading = true
     })
   },
   computed: {
-    ...mapGetters({ user: "user/loginUser" }),
+    ...mapGetters({ user: "user/user" }),
+    userUpdate() {
+      return this.$store.state.gear.gear
+    },
+  },
+  watch: {
+    userUpdate() {
+      // 口コミ削除時に更新
+      this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
+        this.$store.commit("user/setUser", res.data, { root: true })
+        console.log(res.data)
+      })
+    },
   },
   methods: {
     // ...mapActions({

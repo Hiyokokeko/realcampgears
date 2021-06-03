@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-5 px-10">
-    <v-card flat>
-      <template v-if="loading">
+    <template v-if="loading">
+      <v-card flat>
         <v-row class="mx-1" no-gutters>
           <v-chip
             class="mb-1 font-weight-bold"
@@ -12,7 +12,7 @@
             {{ gear.category }}
           </v-chip>
           <v-spacer />
-          <p class="caption">更新日時 : {{ gear.created_at }}</p>
+          <p class="caption">更新日時 : {{ createDate }}</p>
         </v-row>
         <div
           class="
@@ -32,13 +32,19 @@
         <v-sheet>
           <v-row no-gutters>
             <v-col cols="12" sm="4">
-              <v-img :src="gear.image.url" contain />
+              <v-img v-if="gear.image.url" :src="gear.image.url" contain />
+              <v-img v-else :src="defaultImage" contain />
               <div class="text-center font-weight-bold mb-3 mt-1">
                 {{ gear.name }}
               </div>
               <v-divider />
               <v-avatar size="50" class="mr-3 my-4 samll-image">
-                <v-img :src="gear.image.url" alt="avatar" />
+                <v-img
+                  v-if="gear.image.url"
+                  :src="gear.image.url"
+                  alt="avatar"
+                />
+                <v-img v-else :src="defaultImage" contain />
               </v-avatar>
               <v-divder />
             </v-col>
@@ -60,13 +66,13 @@
                     {{ rating }}
                   </span>
                   <small class="ml-10">
-                    口コミ数: 0人
+                    口コミ数: 0
                     <br />
                     買いたい: 0人
                   </small>
                 </div>
                 <v-divder />
-                <div class="font-weight-bold my-5">
+                <div v-if="login" class="font-weight-bold my-5">
                   <v-btn color="indigo accent-3 white--text font-weight-bold"
                     >My Gearsに追加</v-btn
                   >
@@ -84,15 +90,13 @@
                     color="green white--text font-weight-bold"
                     @click="nice"
                   >
-                    買いたい
+                    買いたい!
                   </v-btn>
-                  <v-btn color="orange white--text font-weight-bold">
-                    評価・口コミをする
-                  </v-btn>
+                  <gear-review-modal v-if="review" :gear="gear" />
                 </div>
                 <v-divider />
                 <div class="my-4">
-                  <h2 class="show-info pl-5">商品詳細</h2>
+                  <h2 class="show-info pl-3">商品詳細</h2>
                   <div class="mt-5">
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">カテゴリ</dt>
@@ -136,26 +140,79 @@
             </v-col>
           </v-row>
         </v-sheet>
-      </template>
-    </v-card>
+      </v-card>
+      <v-divider class="my-5" />
+      <v-card flat>
+        <v-row no-getters>
+          <v-col cols="12" md="8">
+            <v-card flat>
+              <h3 class="show-info pl-2 mb-2">
+                口コミ<span>（{{ gear.reviews.length }}）</span>
+              </h3>
+              <template v-if="gear.reviews.length === 0">
+                <h4 class="my-5 text-decoration-underline">口コミ募集中！</h4>
+                <gear-review-modal :gear="gear" />
+              </template>
+              <template v-else>
+                <gear-review-list :reviews="gear.reviews" />
+              </template>
+            </v-card>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-card flat>
+              <h3 class="mb-2 pl-2 show-info">カスタマーレビュー</h3>
+              <v-card height="300px">作成中</v-card>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </template>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
+import gearReviewModal from "~/components/GearReviewModal.vue"
+import gearReviewList from "~/components/GearReviewList.vue"
+
 export default {
+  name: "REALCAMPGEARS",
+  components: {
+    gearReviewModal,
+    gearReviewList,
+  },
   data() {
     return {
       loading: false,
       rating: 4.3,
       like: false,
+      review: true,
+      createDate: "",
+      defaultImage: require("@/assets/images/default.png"),
     }
   },
   computed: {
     ...mapGetters({
       gear: "gear/gear",
-      user: "auth/currentUser",
+      user: "auth/loginUser",
+      login: "auth/isLoggedIn",
     }),
+    loginUserReview() {
+      return this.$store.state.gear.gear
+    },
+  },
+  watch: {
+    loginUserReview() {
+      // レビューを既に投稿しているユーザーは非表示にする
+      if (this.login) {
+        this.review = true
+        this.gear.reviews.forEach((f) => {
+          if (f.user_id === this.user.id) {
+            this.review = false
+          }
+        })
+      }
+    },
   },
   created() {
     this.$axios
@@ -164,24 +221,18 @@ export default {
         this.$store.commit("gear/setGear", res.data, { root: true })
       })
       .then(() => {
-        // ユーザーがlikeしているか確認
-        this.gear.like_users.forEach((f) => {
-          if (f.id === this.user.id) {
-            this.like = true
-          }
-        })
+        // ユーザーがログインしてたらlikeしているか確認
+        if (this.login) {
+          this.gear.like_users.forEach((f) => {
+            if (f.id === this.user.id) {
+              this.like = true
+            }
+          })
+        }
+        this.createDate = this.$dayjs(this.gear.created_at).format("YYYY/MM/DD")
         this.loading = true
       })
   },
-  // async mounted() {
-  //   let res = await this.$axios.$get("/api/v1/isLike", {
-  //     params: {
-  //       user_id: this.$store.state.auth.currentUser.id,
-  //       gear_id: this.$store.state.gear.gear.id,
-  //     },
-  //   })
-  //   this.like = Boolean(res)
-  // },
   methods: {
     ...mapActions({
       likeGear: "gear/likeGear",

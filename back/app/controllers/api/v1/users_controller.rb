@@ -7,8 +7,9 @@ module Api
       end
 
       def show
-        @user = User.includes({gearlike: :like_users}).find(params[:id])
-        render json: @user.as_json(include: {gearlike: {include: {like_users: {only: ['id']}}}})
+        @user = User.includes({gearlike: :like_users}, {reviews: [:gear, :user]}).find(params[:id])
+        render json: @user.as_json(include: [{gearlike: {include: {like_users: {only: [:id]}}}},
+                                            {reviews: {include: [{gear: {only: [:id, :name, :image]}}, {user: {only: [:id, :name, :image]}}]}}])
       end
 
       private

@@ -8,7 +8,8 @@
           :to="{ path: `/gear/${gear.id}` }"
         >
           <v-list-item-avatar>
-            <v-img contain :src="gear.image.url" />
+            <v-img v-if="gear.image.url" contain :src="gear.image.url" />
+            <v-img v-else contain :src="defaultImage" />
           </v-list-item-avatar>
           <v-list-item-content :to="{ path: `/gear/${gear.id}` }">
             <v-list-item-title class="list-item">
@@ -18,12 +19,10 @@
               {{ gear.maker }}
             </v-list-item-subtitle>
           </v-list-item-content>
+          <gear-card-menu :gear="gear" />
           <v-list-item-icon>
             <v-btn icon color="green" class="mr-5" x-samll to="/gear/create">
               <v-icon> mdi-plus-thick </v-icon>
-            </v-btn>
-            <v-btn icon color="grey" class="mr-16" x-small to="/gear/create">
-              <v-icon> mdi-dots-horizontal </v-icon>
             </v-btn>
           </v-list-item-icon>
         </v-list-item>
@@ -33,7 +32,12 @@
 </template>
 
 <script>
+import gearCardMenu from "~/components/GearCardMenu.vue"
+
 export default {
+  components: {
+    gearCardMenu,
+  },
   props: {
     gears: {
       type: Array,
@@ -43,6 +47,11 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  data() {
+    return {
+      defaultImage: require("@/assets/images/default.png"),
+    }
   },
 }
 </script>

@@ -11,10 +11,12 @@ class User < ApplicationRecord
 
   has_many :gear_likes, dependent: :destroy
   has_many :gearlike, through: :gear_likes, source: :gear
+  has_many :reviews, dependent: :destroy
+  has_many :gear_review, through: :reviews, source: :gear
 
-  def like(other_gear)
-    self.gear_likes.find_or_create_by(gear_id: other_gear.id)
-  end
+  # def like(other_gear)
+  #   self.gear_likes.find_or_create_by(gear_id: other_gear.id)
+  # end
 
   def unlike(other_gear)
     like = self.gear_likes.find_by(gear_id: other_gear.id)

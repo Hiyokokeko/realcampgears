@@ -26,6 +26,7 @@ export default {
     "plugins/axios",
     { src: "~/plugins/localStorage.js", ssr: false },
     { src: "~/plugins/vue-carousel", ssr: false },
+    { src: "~/plugins/dayjs", ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

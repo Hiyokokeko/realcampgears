@@ -48,12 +48,28 @@
       </v-expand-transition>
     </template>
     <div class="d-flex align-center my-2">
-      <v-btn color="pink white--text font-weight-bold" class="mr-3" small>
+      <v-btn
+        v-if="like"
+        color="pink white--text font-weight-bold"
+        class="mr-3"
+        small
+        @click="nice"
+      >
+        <v-icon small class="mr-1"> mdi-heart-plus </v-icon>
+        いいねから外す
+      </v-btn>
+      <v-btn
+        v-else
+        color="pink white--text font-weight-bold"
+        class="mr-3"
+        small
+        @click="nice"
+      >
         <v-icon small class="mr-1"> mdi-heart-plus </v-icon>
         いいね！
       </v-btn>
       <div>
-        <span class="arrow_box">5</span>
+        <span class="arrow_box">{{ review.review_likes.length }}</span>
       </div>
       <v-btn color="cyan white--text font-weight-bold" class="ml-5 mr-3" small>
         <v-icon small class="mr-1"> mdi-comment-multiple </v-icon>
@@ -69,6 +85,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex"
 import userAvatar from "~/components/UserAvatar.vue"
 import gearReviewEdit from "~/components/GearReviewEdit.vue"
 import gearReviewDelete from "~/components/GearReviewDelete.vue"
@@ -90,10 +107,72 @@ export default {
       createDate: "",
       rating: this.review.rate,
       expend: false,
+      like: false,
     }
+  },
+  computed: {
+    ...mapGetters({
+      loginUser: "auth/loginUser",
+      login: "auth/isLoggedIn",
+    }),
+    loginUserReview() {
+      return this.$store.state.gear.gear
+    },
+  },
+  watch: {
+    loginUserReview() {
+      // レビューにlike済みか確認
+      if (this.login) {
+        this.like = false
+        this.review.review_likes.forEach((f) => {
+          if (f.user_id === this.loginUser.id) {
+            this.like = true
+          }
+        })
+      }
+    },
   },
   mounted() {
     this.createDate = this.$dayjs(this.review.created_at).format("YYYY/MM/DD")
+    if (this.login) {
+      this.like = false
+      this.review.review_likes.forEach((f) => {
+        if (f.user_id === this.loginUser.id) {
+          this.like = true
+        }
+      })
+    }
+  },
+  methods: {
+    ...mapActions({
+      likeReview: "review/likeReview",
+      unLikeReview: "review/unLikeReview",
+    }),
+    nice() {
+      const gearData = {
+        user: this.$store.state.auth.loginUser.id,
+        review: this.review.id,
+      }
+      if (this.like) {
+        this.unLikeReview(gearData).then(() => {
+          this.like = false
+          this.$axios
+            .$get(`/api/v1/gears/${this.$route.params.id}`)
+            .then((res) => {
+              this.$store.commit("gear/setGear", res, { root: true })
+            })
+        })
+      } else {
+        this.likeReview(gearData).then(() => {
+          this.like = true
+          this.$axios
+            .$get(`/api/v1/gears/${this.$route.params.id}`)
+            .then((res) => {
+              this.$store.commit("gear/setGear", res, { root: true })
+            })
+        })
+      }
+    },
   },
 }
 </script>

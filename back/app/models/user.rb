@@ -23,7 +23,9 @@ class User < ApplicationRecord
     like.destroy if like
   end
 
-  def liking?(other_gear)
-    self.gearlike.include?(other_gear)
+  def unLikeReview(other_review)
+    like = self.review_likes.find_by(review_id: other_review.id)
+    like.destroy if like
   end
+
 end

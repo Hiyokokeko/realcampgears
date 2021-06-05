@@ -12,5 +12,4 @@ class Gear < ApplicationRecord
   has_many :gear_likes, dependent: :destroy
   has_many :like_users, through: :gear_likes, source: :user
   has_many :reviews, dependent: :destroy
-  has_many :user_review, through: :reviews, source: :user
 end

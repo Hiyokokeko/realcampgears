@@ -66,9 +66,15 @@
                     {{ rating }}
                   </span>
                   <small class="ml-10">
-                    口コミ数: 0
+                    口コミ数：
+                    <span class="font-weight-bold">
+                      {{ gear.reviews.length }}
+                    </span>
                     <br />
-                    買いたい: 0人
+                    買いたい：
+                    <span class="font-weight-bold">
+                      {{ gear.like_users.length }}
+                    </span>
                   </small>
                 </div>
                 <v-divder />
@@ -246,10 +252,20 @@ export default {
       if (this.like) {
         this.unLikeGear(gearData).then(() => {
           this.like = false
+          this.$axios
+            .$get(`/api/v1/gears/${this.$route.params.id}`)
+            .then((res) => {
+              this.$store.commit("gear/setGear", res, { root: true })
+            })
         })
       } else {
         this.likeGear(gearData).then(() => {
           this.like = true
+          this.$axios
+            .$get(`/api/v1/gears/${this.$route.params.id}`)
+            .then((res) => {
+              this.$store.commit("gear/setGear", res, { root: true })
+            })
         })
       }
     },

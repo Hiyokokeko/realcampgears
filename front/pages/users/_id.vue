@@ -40,7 +40,7 @@
       <v-container class="px-13">
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <user-review-list :reviews="user.reviews" />
+            <user-like-review-list :reviews="user.like_reviews" />
           </v-tab-item>
           <v-tab-item>
             <gear-list :gears="user.gearlike" />
@@ -49,7 +49,7 @@
             <user-review-list :reviews="user.reviews" />
           </v-tab-item>
           <v-tab-item>
-            <gear-list :gears="user.gearlike" />
+            <user-like-review-list :reviews="user.like_reviews" />
           </v-tab-item>
         </v-tabs-items>
       </v-container>
@@ -62,6 +62,7 @@ import { mapGetters, mapActions } from "vuex"
 import userAvatar from "~/components/UserAvatar.vue"
 import gearList from "~/components/GearList.vue"
 import userReviewList from "~/components/UserReviewList.vue"
+import userLikeReviewList from "~/components/UserLikeReviewList.vue"
 
 export default {
   name: "REALCAMPGEARS",
@@ -69,6 +70,7 @@ export default {
     userAvatar,
     gearList,
     userReviewList,
+    userLikeReviewList,
   },
   data() {
     return {
@@ -97,13 +99,6 @@ export default {
       ],
     }
   },
-  created() {
-    this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
-      this.$store.commit("user/setUser", res.data, { root: true })
-      console.log(res.data)
-      this.loading = true
-    })
-  },
   computed: {
     ...mapGetters({ user: "user/user" }),
     userUpdate() {
@@ -112,12 +107,19 @@ export default {
   },
   watch: {
     userUpdate() {
-      // 口コミ削除時に更新
+      // ギアを再取得時にユーザーを更新
       this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
         this.$store.commit("user/setUser", res.data, { root: true })
         console.log(res.data)
       })
     },
+  },
+  created() {
+    this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
+      this.$store.commit("user/setUser", res.data, { root: true })
+      console.log(res.data)
+      this.loading = true
+    })
   },
   methods: {
     // ...mapActions({

@@ -12,7 +12,8 @@ class User < ApplicationRecord
   has_many :gear_likes, dependent: :destroy
   has_many :gearlike, through: :gear_likes, source: :gear
   has_many :reviews, dependent: :destroy
-  has_many :gear_review, through: :reviews, source: :gear
+  has_many :review_likes, dependent: :destroy
+  has_many :like_reviews, through: :review_likes, source: :review
 
   # def like(other_gear)
   #   self.gear_likes.find_or_create_by(gear_id: other_gear.id)
@@ -23,7 +24,9 @@ class User < ApplicationRecord
     like.destroy if like
   end
 
-  def liking?(other_gear)
-    self.gearlike.include?(other_gear)
+  def unLikeReview(other_review)
+    like = self.review_likes.find_by(review_id: other_review.id)
+    like.destroy if like
   end
+
 end

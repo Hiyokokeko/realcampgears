@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-2">
     <div class="d-flex align-center">
-      <nuxt-link :to="{ path: `/gear/${review.gear.id}` }">
+      <nuxt-link :to="{ path: `/gear/${review.gear_id}` }">
         <v-avatar size="50" class="mr-3 my-4 small-image">
           <v-img
             v-if="review.gear.image.url"
@@ -12,9 +12,19 @@
           <v-img v-else :src="defaultImage" contain />
         </v-avatar>
       </nuxt-link>
-      <nuxt-link :to="{ path: `/gear/${review.gear.id}` }">
+      <nuxt-link :to="{ path: `/gear/${review.gear_id}` }">
         <span class="ml-2 body-2 black--text">
           {{ review.gear.name }}
+        </span>
+      </nuxt-link>
+    </div>
+    <div class="d-flex align-center">
+      <nuxt-link :to="{ path: `/users/${review.user_id}` }">
+        <user-avatar :size="30" :user="review.user" />
+      </nuxt-link>
+      <nuxt-link :to="{ path: `/users/${review.user_id}` }">
+        <span class="ml-2 body-2 black--text">
+          {{ review.user.name }}
         </span>
       </nuxt-link>
     </div>
@@ -96,11 +106,12 @@
 import { mapGetters, mapActions } from "vuex"
 import gearReviewEdit from "~/components/GearReviewEdit.vue"
 import gearReviewDelete from "~/components/GearReviewDelete.vue"
-
+import userAvatar from "~/components/UserAvatar.vue"
 export default {
   components: {
     gearReviewEdit,
     gearReviewDelete,
+    userAvatar,
   },
   props: {
     review: {

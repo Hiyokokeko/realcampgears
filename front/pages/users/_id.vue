@@ -40,7 +40,7 @@
       <v-container class="px-13">
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <user-review-list :reviews="user.reviews" />
+            <user-like-review-list :reviews="user.like_reviews" />
           </v-tab-item>
           <v-tab-item>
             <gear-list :gears="user.gearlike" />
@@ -49,7 +49,7 @@
             <user-review-list :reviews="user.reviews" />
           </v-tab-item>
           <v-tab-item>
-            <gear-list :gears="user.gearlike" />
+            <user-like-review-list :reviews="user.like_reviews" />
           </v-tab-item>
         </v-tabs-items>
       </v-container>
@@ -62,6 +62,7 @@ import { mapGetters, mapActions } from "vuex"
 import userAvatar from "~/components/UserAvatar.vue"
 import gearList from "~/components/GearList.vue"
 import userReviewList from "~/components/UserReviewList.vue"
+import userLikeReviewList from "~/components/UserLikeReviewList.vue"
 
 export default {
   name: "REALCAMPGEARS",
@@ -69,6 +70,7 @@ export default {
     userAvatar,
     gearList,
     userReviewList,
+    userLikeReviewList,
   },
   data() {
     return {

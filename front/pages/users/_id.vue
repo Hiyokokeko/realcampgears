@@ -13,7 +13,7 @@
                   <h2 class="display-1">
                     {{ user.name }}
                   </h2>
-                  <template v-if="loginUser.id !== user.id && loginUser">
+                  <template v-if="loginUser && loginUser.id !== user.id">
                     <v-btn
                       v-if="follow"
                       color="blue white--text"
@@ -63,6 +63,12 @@
         <v-tab-item>
           <user-like-review-list :reviews="user.like_reviews" />
         </v-tab-item>
+        <v-tab-item>
+          <user-list :users="user.followings" />
+        </v-tab-item>
+        <v-tab-item>
+          <user-list :users="user.followers" />
+        </v-tab-item>
       </v-tabs-items>
     </v-container>
   </div>
@@ -72,6 +78,7 @@
 import { mapGetters } from "vuex"
 import userAvatar from "~/components/UserAvatar.vue"
 import gearList from "~/components/GearList.vue"
+import userList from "~/components/UserList.vue"
 import userReviewList from "~/components/UserReviewList.vue"
 import userLikeReviewList from "~/components/UserLikeReviewList.vue"
 
@@ -80,6 +87,7 @@ export default {
   components: {
     userAvatar,
     gearList,
+    userList,
     userReviewList,
     userLikeReviewList,
   },
@@ -167,6 +175,10 @@ export default {
             console.log(res.data)
             this.$store.commit("user/setUser", res.data, { root: true })
             this.follow = true
+            this.$axios.get(`api/v1/users/${this.loginUser.id}`).then((res) => {
+              console.log(res.data)
+              this.$store.commit("auth/setLoginUser", res.data, { root: true })
+            })
           })
         })
         .catch((err) => {
@@ -196,6 +208,10 @@ export default {
             console.log(res.data)
             this.$store.commit("user/setUser", res.data, { root: true })
             this.follow = false
+            this.$axios.get(`api/v1/users/${this.loginUser.id}`).then((res) => {
+              console.log(res.data)
+              this.$store.commit("auth/setLoginUser", res.data, { root: true })
+            })
           })
         })
         .catch((err) => {

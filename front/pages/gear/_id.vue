@@ -157,7 +157,7 @@
               </h3>
               <template v-if="gear.reviews.length === 0">
                 <h4 class="my-5 text-decoration-underline">口コミ募集中！</h4>
-                <gear-review-modal :gear="gear" />
+                <gear-review-modal v-if="login" :gear="gear" />
               </template>
               <template v-else>
                 <gear-review-list :reviews="gear.reviews" />

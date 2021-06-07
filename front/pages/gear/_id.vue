@@ -251,20 +251,20 @@ export default {
       }
       if (this.like) {
         this.unLikeGear(gearData).then(() => {
-          this.like = false
           this.$axios
             .$get(`/api/v1/gears/${this.$route.params.id}`)
             .then((res) => {
               this.$store.commit("gear/setGear", res, { root: true })
+              this.like = false
             })
         })
       } else {
         this.likeGear(gearData).then(() => {
-          this.like = true
           this.$axios
             .$get(`/api/v1/gears/${this.$route.params.id}`)
             .then((res) => {
               this.$store.commit("gear/setGear", res, { root: true })
+              this.like = true
             })
         })
       }

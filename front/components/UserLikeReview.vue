@@ -107,6 +107,7 @@ import { mapGetters, mapActions } from "vuex"
 import gearReviewEdit from "~/components/GearReviewEdit.vue"
 import gearReviewDelete from "~/components/GearReviewDelete.vue"
 import userAvatar from "~/components/UserAvatar.vue"
+
 export default {
   components: {
     gearReviewEdit,
@@ -173,20 +174,20 @@ export default {
       }
       if (this.like) {
         this.unLikeReview(gearData).then(() => {
-          this.like = false
           this.$axios
             .$get(`/api/v1/users/${this.$route.params.id}`)
             .then((res) => {
               this.$store.commit("gear/setGear", res, { root: true })
+              this.like = false
             })
         })
       } else {
         this.likeReview(gearData).then(() => {
-          this.like = true
           this.$axios
             .$get(`/api/v1/users/${this.$route.params.id}`)
             .then((res) => {
               this.$store.commit("gear/setGear", res, { root: true })
+              this.like = true
             })
         })
       }

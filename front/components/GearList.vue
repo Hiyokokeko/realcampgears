@@ -60,6 +60,7 @@ export default {
 }
 .list-item {
   width: 100px;
+  cursor: pointer;
 }
 .list:hover {
   transition: 0.3s;

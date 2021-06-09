@@ -66,36 +66,42 @@
       </v-expand-transition>
     </template>
     <div class="d-flex align-center my-2">
-      <v-btn
-        v-if="like"
-        color="red lighten-3 white--text font-weight-bold"
-        class="mr-3"
-        small
-        @click="nice"
-      >
-        <v-icon small class="mr-1"> mdi-heart-plus </v-icon>
-        いいねから外す
-      </v-btn>
-      <v-btn
-        v-else
-        color="pink white--text font-weight-bold"
-        class="mr-3"
-        small
-        @click="nice"
-      >
-        <v-icon small class="mr-1"> mdi-heart-plus </v-icon>
-        いいね！
-      </v-btn>
-      <div>
-        <span class="arrow_box">{{ review.review_likes.length }}</span>
-      </div>
-      <v-btn color="cyan white--text font-weight-bold" class="ml-5 mr-3" small>
-        <v-icon small class="mr-1"> mdi-comment-multiple </v-icon>
-        コメント
-        <span class="ml-1">(5)</span>
-      </v-btn>
-      <gear-review-edit :review="review" />
-      <gear-review-delete :review="review" />
+      <template v-if="login">
+        <v-btn
+          v-if="like"
+          color="red lighten-3 white--text font-weight-bold"
+          class="mr-3"
+          small
+          @click="nice"
+        >
+          <v-icon small class="mr-1"> mdi-heart-plus </v-icon>
+          いいねから外す
+        </v-btn>
+        <v-btn
+          v-else
+          color="pink white--text font-weight-bold"
+          class="mr-3"
+          small
+          @click="nice"
+        >
+          <v-icon small class="mr-1"> mdi-heart-plus </v-icon>
+          いいね！
+        </v-btn>
+        <div>
+          <span class="arrow_box">{{ review.review_likes.length }}</span>
+        </div>
+        <v-btn
+          color="cyan white--text font-weight-bold"
+          class="ml-5 mr-3"
+          small
+        >
+          <v-icon small class="mr-1"> mdi-comment-multiple </v-icon>
+          コメント
+          <span class="ml-1">(5)</span>
+        </v-btn>
+        <gear-review-edit :review="review" />
+        <gear-review-delete :review="review" />
+      </template>
       <v-spacer />
       <p class="review-content caption">投稿日: {{ createDate }}</p>
     </div>
@@ -107,6 +113,7 @@ import { mapGetters, mapActions } from "vuex"
 import gearReviewEdit from "~/components/GearReviewEdit.vue"
 import gearReviewDelete from "~/components/GearReviewDelete.vue"
 import userAvatar from "~/components/UserAvatar.vue"
+
 export default {
   components: {
     gearReviewEdit,
@@ -173,20 +180,20 @@ export default {
       }
       if (this.like) {
         this.unLikeReview(gearData).then(() => {
-          this.like = false
           this.$axios
             .$get(`/api/v1/users/${this.$route.params.id}`)
             .then((res) => {
-              this.$store.commit("gear/setGear", res, { root: true })
+              this.$store.commit("user/setUser", res, { root: true })
+              this.like = false
             })
         })
       } else {
         this.likeReview(gearData).then(() => {
-          this.like = true
           this.$axios
             .$get(`/api/v1/users/${this.$route.params.id}`)
             .then((res) => {
-              this.$store.commit("gear/setGear", res, { root: true })
+              this.$store.commit("user/setUser", res, { root: true })
+              this.like = true
             })
         })
       }

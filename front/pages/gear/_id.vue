@@ -157,7 +157,7 @@
               </h3>
               <template v-if="gear.reviews.length === 0">
                 <h4 class="my-5 text-decoration-underline">口コミ募集中！</h4>
-                <gear-review-modal :gear="gear" />
+                <gear-review-modal v-if="login" :gear="gear" />
               </template>
               <template v-else>
                 <gear-review-list :reviews="gear.reviews" />
@@ -251,20 +251,20 @@ export default {
       }
       if (this.like) {
         this.unLikeGear(gearData).then(() => {
-          this.like = false
           this.$axios
             .$get(`/api/v1/gears/${this.$route.params.id}`)
             .then((res) => {
               this.$store.commit("gear/setGear", res, { root: true })
+              this.like = false
             })
         })
       } else {
         this.likeGear(gearData).then(() => {
-          this.like = true
           this.$axios
             .$get(`/api/v1/gears/${this.$route.params.id}`)
             .then((res) => {
               this.$store.commit("gear/setGear", res, { root: true })
+              this.like = true
             })
         })
       }

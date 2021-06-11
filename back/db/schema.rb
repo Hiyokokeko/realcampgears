@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_034942) do
+ActiveRecord::Schema.define(version: 2021_06_11_062054) do
 
   create_table "gear_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2021_06_07_034942) do
     t.string "size"
     t.string "weight"
     t.integer "price"
+    t.date "release"
   end
 
   create_table "relationships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

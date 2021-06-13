@@ -4,6 +4,7 @@
     <the-sidebar />
     <v-main>
       <the-side-button />
+      <gear-message />
       <flash-message />
       <nuxt />
     </v-main>
@@ -14,17 +15,19 @@
 <script>
 import theSidebar from "~/components/layouts/TheSidebar.vue"
 import theHeader from "~/components/layouts/TheHeader.vue"
-import TheSideButton from "~/components/layouts/TheSideButton.vue"
+import theSideButton from "~/components/layouts/TheSideButton.vue"
 // import theFooter from "~/components/layouts/TheFooter.vue"
 import flashMessage from "~/components/layouts/FlashMessage.vue"
+import gearMessage from "~/components/layouts/GearMessage.vue"
 
 export default {
   components: {
     theSidebar,
     theHeader,
-    TheSideButton,
+    theSideButton,
     // theFooter,
     flashMessage,
+    gearMessage,
   },
 }
 </script>

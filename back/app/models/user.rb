@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
   has_many :followers, through: :reverses_of_relationship, source: :user
 
+  has_many :menus
+
   # def like(other_gear)
   #   self.gear_likes.find_or_create_by(gear_id: other_gear.id)
   # end

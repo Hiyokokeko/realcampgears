@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_062054) do
+ActiveRecord::Schema.define(version: 2021_06_14_052601) do
 
   create_table "gear_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 2021_06_11_062054) do
     t.string "weight"
     t.integer "price"
     t.date "release"
+  end
+
+  create_table "menus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date"
+    t.string "timezone"
+    t.integer "timezone_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "date", "timezone"], name: "index_menus_on_user_id_and_date_and_timezone", unique: true
+    t.index ["user_id"], name: "index_menus_on_user_id"
   end
 
   create_table "relationships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -101,6 +112,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_062054) do
 
   add_foreign_key "gear_likes", "gears"
   add_foreign_key "gear_likes", "users"
+  add_foreign_key "menus", "users"
   add_foreign_key "relationships", "users"
   add_foreign_key "relationships", "users", column: "follow_id"
   add_foreign_key "review_likes", "reviews"

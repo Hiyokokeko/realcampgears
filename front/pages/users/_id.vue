@@ -103,6 +103,7 @@ import gearList from "~/components/GearList.vue"
 import userList from "~/components/UserList.vue"
 import userReviewList from "~/components/UserReviewList.vue"
 import userLikeReviewList from "~/components/UserLikeReviewList.vue"
+// import userMenuList from "~/components/UserMenuList.vue"
 
 export default {
   name: "REALCAMPGEARS",
@@ -112,6 +113,7 @@ export default {
     userList,
     userReviewList,
     userLikeReviewList,
+    // userMenuList,
   },
   data() {
     return {

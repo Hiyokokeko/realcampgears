@@ -174,6 +174,7 @@ export default {
   methods: {
     ...mapActions({
       deleteGear: "choise/deleteGear",
+      registerGears: "choise/registerGears",
     }),
     deleteMenu(gear) {
       this.deleteGear(gear)
@@ -192,6 +193,11 @@ export default {
         case 3:
           this.setTimezone = "深夜"
       }
+      this.registerGears({
+        day: this.setDay,
+        zone: this.setTimezone,
+        number: this.timeNumber,
+      })
       console.log(this.setTimezone)
     },
   },

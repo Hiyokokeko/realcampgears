@@ -26,6 +26,9 @@ export const mutations = {
     state.gear = gear
     state.gears.push(gear)
   },
+  resetGears(state, payload) {
+    state.gears = payload
+  },
   unsetGears(state, gear) {
     state.gear = gear
     state.gears.some(function (v, i) {
@@ -93,5 +96,57 @@ export const actions = {
     setTimeout(() => {
       commit("setStatus", !status)
     }, 700)
+  },
+  async registerGears(
+    { commit, dispatch, rootState, state },
+    { day, zone, number }
+  ) {
+    try {
+      const res = await this.$axios.$post("/api/v1/menus", {
+        user_id: rootState.auth.currentUser.id,
+        date: day,
+        timezone: zone,
+        timezone_number: number,
+      })
+      console.log(res)
+      await Promise.all(
+        state.gears.map((gear) => {
+          this.$axios.post("api/v1/choise_gears", {
+            gear_id: gear.id,
+            menu_id: res.id,
+          })
+        })
+      )
+      await this.$axios
+        .$get(`/api/v1/users/${rootState.auth.currentUser.id}`)
+        .then((res) => {
+          console.log(res)
+          commit("auth/setLoginUser", res, { root: true })
+          console.log("成功")
+        })
+      dispatch(
+        "flashMessage/showMessage",
+        {
+          message: "My Gearsを保存しました。",
+          type: "success",
+          status: true,
+        },
+        { root: true }
+      )
+      commit("resetGears", [])
+      commit("setWeight", 0)
+      commit("setPrice", 0.0)
+    } catch (err) {
+      console.log(err)
+      dispatch(
+        "flashMessage/showMessage",
+        {
+          message: "My Gearsの保存に失敗しました。",
+          type: "error",
+          status: true,
+        },
+        { root: true }
+      )
+    }
   },
 }

@@ -54,7 +54,7 @@
             </v-btn>
           </div>
           <v-expansion-panel-content class="mt-2">
-            <p>重量：{{ gear.weight }}kg</p>
+            <p>重量：{{ gear.weight }}g</p>
             <p>金額：{{ gear.price }}円</p>
           </v-expansion-panel-content>
         </v-expansion-panel>

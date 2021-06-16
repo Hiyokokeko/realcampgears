@@ -130,7 +130,7 @@
                     <dl class="product-spec-list">
                       <dt class="product-spec-term">重量</dt>
                       <dd class="product-spec-description">
-                        <span>{{ gear.weight }}</span>
+                        <span>{{ gear.weight }}g</span>
                       </dd>
                     </dl>
                     <dl class="product-spec-list">

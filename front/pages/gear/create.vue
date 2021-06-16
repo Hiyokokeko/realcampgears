@@ -25,17 +25,17 @@
             />
             <v-text-field
               v-model="size"
-              placeholder="例:90×120×255(h)mm"
+              placeholder="例:90×120×255(h)mm(※数値または文字入力)"
               label="サイズ"
             />
             <v-text-field
               v-model="weight"
-              placeholder="例:1.4kg"
+              placeholder="例:1500(※グラム単位です。数値のみ入力)"
               label="重量"
             />
             <v-text-field
               v-model.number="price"
-              placeholder="例:5000"
+              placeholder="例:5000(※数値のみ入力)"
               label="商品価格"
             />
             <v-select

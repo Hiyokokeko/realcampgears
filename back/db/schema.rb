@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_054820) do
+ActiveRecord::Schema.define(version: 2021_06_16_050406) do
 
   create_table "choise_gears", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "gear_id", null: false
@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(version: 2021_06_14_054820) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "image"
     t.string "size"
-    t.string "weight"
     t.integer "price"
     t.date "release"
+    t.float "weight"
   end
 
   create_table "menus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

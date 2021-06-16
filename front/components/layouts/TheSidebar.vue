@@ -72,7 +72,7 @@
               <dt class="product-spec-term font-weight-bold">重量</dt>
               <dd class="product-spec-description">
                 <span class="font-weight-black">{{ weight }}</span>
-                <span>kg</span>
+                <span>g</span>
               </dd>
             </dl>
             <dl class="product-spec-list">
@@ -96,7 +96,7 @@
               <template #activator="{ on, attrs }">
                 <v-text-field
                   v-model="setDay"
-                  label="キャンプ日"
+                  label="追加日"
                   readonly
                   v-bind="attrs"
                   v-on="on"

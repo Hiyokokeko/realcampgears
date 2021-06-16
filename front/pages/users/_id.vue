@@ -72,7 +72,7 @@
         <v-col cols="12">
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <user-like-review-list :reviews="user.like_reviews" />
+              <user-menu-list :menus="user.menus" />
             </v-tab-item>
             <v-tab-item>
               <gear-list :gears="user.gearlike" />
@@ -103,7 +103,7 @@ import gearList from "~/components/GearList.vue"
 import userList from "~/components/UserList.vue"
 import userReviewList from "~/components/UserReviewList.vue"
 import userLikeReviewList from "~/components/UserLikeReviewList.vue"
-// import userMenuList from "~/components/UserMenuList.vue"
+import userMenuList from "~/components/UserMenuList.vue"
 
 export default {
   name: "REALCAMPGEARS",
@@ -113,7 +113,7 @@ export default {
     userList,
     userReviewList,
     userLikeReviewList,
-    // userMenuList,
+    userMenuList,
   },
   data() {
     return {

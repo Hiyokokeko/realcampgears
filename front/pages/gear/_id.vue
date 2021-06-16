@@ -79,9 +79,20 @@
                 </div>
                 <v-divder />
                 <div v-if="login" class="font-weight-bold my-5">
-                  <v-btn color="indigo accent-3 white--text font-weight-bold"
-                    >My Gearsに追加</v-btn
+                  <v-btn
+                    v-if="add"
+                    color="red accent-3 white--text font-weight-bold"
+                    @click="deleteMenu"
                   >
+                    My Gearsから外す
+                  </v-btn>
+                  <v-btn
+                    v-else
+                    color="indigo accent-3 white--text font-weight-bold"
+                    @click="addMenu"
+                  >
+                    My Gearsに追加
+                  </v-btn>
                   <v-btn
                     v-if="like"
                     class="mx-5"
@@ -140,6 +151,12 @@
                         <span>{{ gear.details }}</span>
                       </dd>
                     </dl>
+                    <dl class="product-spec-list">
+                      <dt class="product-spec-term">発売日</dt>
+                      <dd class="product-spec-description">
+                        <span>{{ gear.release }}</span>
+                      </dd>
+                    </dl>
                   </div>
                 </div>
               </v-sheet>
@@ -193,6 +210,7 @@ export default {
       rating: 4.3,
       like: false,
       review: true,
+      add: false,
       createDate: "",
       defaultImage: require("@/assets/images/default.png"),
     }
@@ -202,6 +220,7 @@ export default {
       gear: "gear/gear",
       user: "auth/loginUser",
       login: "auth/isLoggedIn",
+      myGears: "choise/gears",
     }),
     loginUserReview() {
       return this.$store.state.gear.gear
@@ -215,6 +234,12 @@ export default {
         this.gear.reviews.forEach((f) => {
           if (f.user_id === this.user.id) {
             this.review = false
+          }
+        })
+        this.add = false
+        this.myGears.forEach((f) => {
+          if (f.id === this.gear.id) {
+            this.add = true
           }
         })
       }
@@ -234,6 +259,12 @@ export default {
               this.like = true
             }
           })
+          this.add = false
+          this.myGears.forEach((f) => {
+            if (f.id === this.gear.id) {
+              this.add = true
+            }
+          })
         }
         this.createDate = this.$dayjs(this.gear.created_at).format("YYYY/MM/DD")
         this.loading = true
@@ -243,6 +274,8 @@ export default {
     ...mapActions({
       likeGear: "gear/likeGear",
       unLikeGear: "gear/unLikeGear",
+      addGear: "choise/addGear",
+      deleteGear: "choise/deleteGear",
     }),
     nice() {
       const gearData = {
@@ -268,6 +301,14 @@ export default {
             })
         })
       }
+    },
+    addMenu() {
+      this.addGear(this.gear)
+      this.add = true
+    },
+    deleteMenu() {
+      this.deleteGear(this.gear)
+      this.add = false
     },
   },
 }

@@ -44,6 +44,34 @@
               label="カテゴリー"
             />
             <v-select v-model="maker" :items="makerList" label="販売メーカー" />
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="release"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template #activator="{ on, attrs }">
+                <v-text-field
+                  v-model="release"
+                  label="発売日"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="release" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menu = false">
+                  Cancel
+                </v-btn>
+                <v-btn text color="primary" @click="$refs.menu.save(release)">
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
             <v-card-actions>
               <v-btn
                 color="light-green darken-1"
@@ -70,6 +98,7 @@ export default {
       size: "",
       weight: "",
       price: "",
+      release: "",
       categoryList: [
         "寝具",
         "テント/タープ",
@@ -92,7 +121,18 @@ export default {
         "Nordisk",
         "その他",
       ],
+      menu: false,
+      today: "",
     }
+  },
+  created() {
+    this.today = new Date()
+    this.release =
+      this.today.getFullYear() +
+      "-" +
+      Number(this.today.getMonth() + 1) +
+      "-" +
+      this.today.getDate()
   },
   methods: {
     setImage(e) {
@@ -106,6 +146,7 @@ export default {
       formData.append("size", this.size)
       formData.append("weight", this.weight)
       formData.append("price", this.price)
+      formData.append("release", this.release)
       formData.append("category", this.category)
       formData.append("maker", this.maker)
       const config = {

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2">
+  <v-card v-if="status" class="pa-2">
     <div class="d-flex align-center mb-2 ml-2">
       <span class="title">{{ eatDate }}</span>
       <span class="title ml-10">{{ menu.timezone }}</span>
@@ -17,6 +17,17 @@
         金額
         <span class="font-weight-bold">{{ totalPrice }}</span>
         円
+      </div>
+      <v-spacer />
+      <div v-if="menu.user_id === $store.state.auth.loginUser.id">
+        <v-btn
+          color="red"
+          class="font-weight-bold justify-center mr-2"
+          text
+          @click="deleteMenu(menu.id)"
+        >
+          削除
+        </v-btn>
       </div>
     </div>
   </v-card>
@@ -39,6 +50,7 @@ export default {
     return {
       defaultImage: require("@/assets/images/default.png"),
       gears: this.menu.choise_gear,
+      status: true,
       eatDate: "",
       totalWeight: 0,
       totalPrice: 0.0,
@@ -62,7 +74,41 @@ export default {
     this.totalWeight = weight
     this.totalPrice = price.toFixed(1)
   },
-  methods: {},
+  methods: {
+    deleteMenu(id) {
+      this.$axios
+        .delete(`api/v1/menus/${id}`)
+        .then(() => {
+          this.$store.dispatch(
+            "flashMessage/showMessage",
+            {
+              message: "My Gearsを削除しました。",
+              type: "info",
+              status: true,
+            },
+            { root: true }
+          )
+          this.$axios
+            .$get(`/api/v1/users/${this.$route.params.id}`)
+            .then((res) => {
+              this.$store.commit("user/setUser", res, { root: true })
+              this.status = false
+            })
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$store.dispatch(
+            "flashMessage/showMessage",
+            {
+              message: "My Gearsの削除に失敗しました。",
+              type: "error",
+              status: true,
+            },
+            { root: true }
+          )
+        })
+    },
+  },
 }
 </script>
 

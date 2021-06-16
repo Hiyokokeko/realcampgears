@@ -150,18 +150,28 @@ export default {
       user: "user/user",
       loginUser: "auth/loginUser",
     }),
-    userUpdate() {
+    gearUpdate() {
       return this.$store.state.gear.gear
     },
+    // userUpdate() {
+    //   return this.$store.state.auth.loginUser
+    // },
   },
   watch: {
-    userUpdate() {
+    gearUpdate() {
       // ギアを再取得時にユーザーを更新
       this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
         this.$store.commit("user/setUser", res.data, { root: true })
         console.log(res.data)
       })
     },
+    // userUpdate() {
+    //   // ユーザー情報更新時にユーザーを更新
+    //   this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {
+    //     this.$store.commit("user/setUser", res.data, { root: true })
+    //     console.log(res.data)
+    //   })
+    // },
   },
   created() {
     this.$axios.get(`api/v1/users/${this.$route.params.id}`).then((res) => {

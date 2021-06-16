@@ -21,7 +21,7 @@
       </div>
       <v-divider />
       <div class="ml-1">
-        <template v-if="gear">
+        <template v-if="status">
           <v-avatar size="40" class="small-image" max-width="40" color="white">
             <v-img
               v-if="gear.image.url"
